@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/24 18:22:31 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/24 19:15:32 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,24 @@ int	check_args(int argc, char **argv)
 	return (0);
 }
 
-void	init_thread(t_thread *thread, t_values values, int id)
+t_thread	*init_threads(t_coders *coders, t_thread *threads, t_values values)
 {
-	thread->id_coder = id;
-	thread->time_to_compile = values.time_to_compile;
-	thread->time_to_burnout = values.time_to_burnout;
-	thread->scheduler = values.scheduler;
+	int			i;
+	t_coders	*tmp;
+
+	threads = malloc(sizeof(t_thread) * values.number_of_coders);
+	if (!threads)
+		return (NULL);
+	i = 0;
+	tmp = coders;
+	while (i < values.number_of_coders)
+	{
+		(&threads[i])->coder = tmp;
+		(&threads[i])->values = values;
+		i++;
+		tmp = tmp->next;
+	}
+	return (threads);
 }
 
 t_dongle	*init_dongles(t_dongle *dongles, t_values values)

@@ -30,4 +30,7 @@ fclean: clean
 
 re: fclean all
 
+run:
+	valgrind --leak-check=full ./codexion 2 1 1 1 1 1 1 fifo
+
 .PHONY: all clean fclean re

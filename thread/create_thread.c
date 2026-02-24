@@ -6,27 +6,24 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:41:43 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/24 16:42:09 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/24 19:26:31 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders/coders.h"
 
-int	init_thread_coder(pthread_t *thread_coder, t_thread *thread, int n_coder)
+int	routine(t_thread *thread)
 {
-	thread_coder = malloc(sizeof(pthread_t) * n_coder);
-	if (!thread_coder)
-		return (1);
-	thread = malloc(sizeof(t_thread) * n_coder);
-	if (!thread)
-		return (1);
-	return (0);
-}
+	int	n_times;
 
-int	compile(t_thread *thread)
-{
+	printf("routine\n");
 	if (!thread)
 		return (1);
+	n_times = thread->values.number_of_compiles_required;
+	while (thread->coder->n_compiled <= n_times)
+	{
+		(thread->coder->n_compiled)++;
+	}
 	return (0);
 }
 
@@ -42,27 +39,46 @@ routine() fifo // edf
 	//bungee == fourchette --> partage le meme emplacement memoir
 */
 
-int	create_thread(t_coders *coders, t_values values)
+int	free_threads(t_thread *threads, pthread_t *thread_coder, int n_coder)
 {
-	t_coders	*tmp;
-	int			i;
-	pthread_t	*thread_coder;
-	t_thread	*thread;
+	int	i;
 
-	thread = NULL;
-	thread_coder = NULL;
-	if (!init_thread_coder(thread_coder, thread, values.number_of_coders))
-		return (1);
 	i = 0;
-	tmp = coders;
-	while (i < values.number_of_coders)
+	while (i < n_coder)
 	{
-		init_thread(&thread[i], values, tmp->id);
-		if (pthread_create(&thread_coder[i], NULL, (void *)compile,
-				&thread[i]) != 0)
-			return (1);
-		tmp = tmp->next;
+		if (&threads[i])
+			free(&threads[i]);
+		if (&thread_coder[i])
+			free(&thread_coder[i]);
 		i++;
 	}
+	return (1);
+}
+
+int	create_thread(t_coders *coders, t_values values)
+{
+	int			i;
+	pthread_t	*thread_coder;
+	t_thread	*threads;
+
+	threads = NULL;
+	thread_coder = NULL;
+	threads = init_threads(coders, threads, values);
+	if (!threads)
+		return (free_threads(threads, thread_coder, values.number_of_coders));
+	thread_coder = malloc(sizeof(pthread_t) * values.number_of_coders);
+	if (!thread_coder)
+		return (free_threads(threads, thread_coder, values.number_of_coders));
+	i = 0;
+	while (i < values.number_of_coders)
+	{
+		if (pthread_create(&thread_coder[i], NULL, (void *)routine,
+				&threads[i]) != 0)
+			return (1);
+		i++;
+	}
+	// usleep(5000);
+	// free_threads(threads, thread_coder, values.number_of_coders);
+	// join_threads(thread_coder, values.number_of_coders);
 	return (0);
 }

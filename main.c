@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/24 18:26:14 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/24 18:52:47 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print_coders(t_coders *coders, int n_coders)
 	while (i < n_coders)
 	{
 		printf("CODER[%d] : DONGLE[0] = %d | DONGLE[1] = %d\n", tmp->id,
-			tmp->dongles[0].id, tmp->dongles[1].id);
+			tmp->dongles[0]->id, tmp->dongles[1]->id);
 		i++;
 		tmp = tmp->next;
 	}
@@ -38,11 +38,12 @@ int	main(int argc, char **argv)
 		return (error_parsing());
 	init_values(&values, argv);
 	dongles = NULL;
-	dongles = init_dongles(dongles, values);
 	coders = NULL;
+	dongles = init_dongles(dongles, values);
 	coders = init_coders(coders, values, dongles);
 	if (!coders || !dongles)
 		return (error(dongles, coders, values.number_of_coders));
 	// print_coders(coders, values.number_of_coders);
+	create_thread(coders, values);
 	return (success(coders, dongles, values.number_of_coders));
 }
