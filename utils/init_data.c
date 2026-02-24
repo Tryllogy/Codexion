@@ -6,21 +6,21 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/22 14:06:53 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/24 18:22:31 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "coders/coders.h"
+#include "../coders/coders.h"
 
-t_coders	*init_coders(t_coders *coders, t_values values)
+t_coders	*init_coders(t_coders *coders, t_values values, t_dongle *dongles)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	while (i++ < values.number_of_coders)
-		coders = add_back_coder(coders, new_coder(i));
-	if (values.number_of_coders != 1)
-		link_first_last_coders(coders);
+		coders = add_back_coder(coders, new_coder(i, dongles,
+					values.number_of_coders));
+	link_first_last_coders(coders, dongles);
 	return (coders);
 }
 
@@ -53,4 +53,29 @@ int	check_args(int argc, char **argv)
 	if (strcmp(argv[i], "edf") != 0 && strcmp(argv[i], "fifo") != 0)
 		return (1);
 	return (0);
+}
+
+void	init_thread(t_thread *thread, t_values values, int id)
+{
+	thread->id_coder = id;
+	thread->time_to_compile = values.time_to_compile;
+	thread->time_to_burnout = values.time_to_burnout;
+	thread->scheduler = values.scheduler;
+}
+
+t_dongle	*init_dongles(t_dongle *dongles, t_values values)
+{
+	int	i;
+
+	dongles = malloc(sizeof(t_dongle) * values.number_of_coders);
+	if (!dongles)
+		return (NULL);
+	i = 0;
+	while (i < values.number_of_coders)
+	{
+		dongles[i].id = i;
+		pthread_mutex_init(&dongles[i].mutex, NULL);
+		i++;
+	}
+	return (dongles);
 }
