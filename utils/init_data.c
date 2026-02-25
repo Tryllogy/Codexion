@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/24 19:15:32 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/25 14:49:43 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ t_coders	*init_coders(t_coders *coders, t_values values, t_dongle *dongles)
 void	init_values(t_values *values, char **argv)
 {
 	values->number_of_coders = atoi(argv[1]);
-	values->time_to_burnout = atoi(argv[2]);
-	values->time_to_compile = atoi(argv[3]);
-	values->time_to_debug = atoi(argv[4]);
-	values->time_to_refactor = atoi(argv[5]);
+	values->time_to_burnout = atoi(argv[2]) * 1000;
+	values->time_to_compile = atoi(argv[3]) * 1000;
+	values->time_to_debug = atoi(argv[4]) * 1000;
+	values->time_to_refactor = atoi(argv[5]) * 1000;
 	values->number_of_compiles_required = atoi(argv[6]);
-	values->dongle_cooldown = atoi(argv[7]);
+	values->dongle_cooldown = atoi(argv[7]) * 1000;
 	values->scheduler = argv[8];
+	values->finished = 0;
 }
 
 int	check_args(int argc, char **argv)
@@ -68,7 +69,7 @@ t_thread	*init_threads(t_coders *coders, t_thread *threads, t_values values)
 	while (i < values.number_of_coders)
 	{
 		(&threads[i])->coder = tmp;
-		(&threads[i])->values = values;
+		(&threads[i])->values = &values;
 		i++;
 		tmp = tmp->next;
 	}

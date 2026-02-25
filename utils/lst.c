@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 17:51:32 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/24 18:37:39 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/25 14:23:47 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_coders	*new_coder(int id, t_dongle *dongles, int n_coder)
 	}
 	coder->next = NULL;
 	coder->prev = NULL;
+	coder->alive = 1;
 	coder->n_compiled = 0;
 	return (coder);
 }

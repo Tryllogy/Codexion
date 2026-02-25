@@ -8,6 +8,7 @@ HEADERS := coders.h
 UTILS_DIR := utils
 SRC_DIR := src
 THREAD_DIR := thread
+ACTIONS_DIR := actions
 
 SRC := main.c \
 $(SRC_DIR)/errors.c \
@@ -16,7 +17,10 @@ $(UTILS_DIR)/init_data.c \
 $(UTILS_DIR)/lst.c \
 $(UTILS_DIR)/ft_strlen.c \
 $(THREAD_DIR)/create_thread.c \
-
+$(THREAD_DIR)/join_thread.c \
+$(ACTIONS_DIR)/compile.c \
+$(ACTIONS_DIR)/debug.c \
+$(ACTIONS_DIR)/refactor.c \
 
 all:
 	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
@@ -31,6 +35,6 @@ fclean: clean
 re: fclean all
 
 run:
-	valgrind --leak-check=full ./codexion 2 1 1 1 1 1 1 fifo
+	valgrind --leak-check=full ./codexion 5 1 100 1 1 1 1 fifo
 
 .PHONY: all clean fclean re

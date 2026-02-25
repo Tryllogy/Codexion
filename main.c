@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/24 18:52:47 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/25 15:09:50 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	print_coders(t_coders *coders, int n_coders)
 
 int	main(int argc, char **argv)
 {
-	t_values	values;
-	t_coders	*coders;
-	t_dongle	*dongles;
+	t_values		values;
+	t_coders		*coders;
+	t_dongle		*dongles;
 
 	if (check_args(argc, argv))
 		return (error_parsing());
@@ -43,7 +43,7 @@ int	main(int argc, char **argv)
 	coders = init_coders(coders, values, dongles);
 	if (!coders || !dongles)
 		return (error(dongles, coders, values.number_of_coders));
-	// print_coders(coders, values.number_of_coders);
-	create_thread(coders, values);
+	print_coders(coders, values.number_of_coders);
+	// create_threads(coders, &values);
 	return (success(coders, dongles, values.number_of_coders));
 }
