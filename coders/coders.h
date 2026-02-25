@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/25 14:59:48 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/25 18:37:55 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 # define CODERS_H
 
 # include <pthread.h>
-# include <sys/time.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/time.h>
 # include <unistd.h>
 
 // STRUCTURES
@@ -32,6 +32,10 @@ typedef struct s_values
 	unsigned long int	dongle_cooldown;
 	char				*scheduler;
 	int					finished;
+	struct s_dongle		*dongles;
+	struct s_coders		*coders;
+	struct s_thread		*threads;
+	pthread_t			*threads_coder;
 }						t_values;
 
 typedef struct s_dongle
@@ -58,11 +62,9 @@ typedef struct s_thread
 
 // INIT
 void					init_values(t_values *values, char **argv);
-t_coders				*init_coders(t_coders *coders, t_values values,
-							t_dongle *dongles);
+t_coders				*init_coders(t_coders *coders, t_values values);
 int						check_args(int argc, char **argv);
-t_thread				*init_threads(t_coders *coders, t_thread *threads,
-							t_values values);
+t_thread				*init_threads(t_thread *threads, t_values values);
 t_dongle				*init_dongles(t_dongle *dongles, t_values values);
 
 // UTILS
@@ -76,19 +78,17 @@ void					free_coders(t_coders *coders, int n_coders);
 // ERRORS
 int						error_parsing(void);
 int						error_no_args(void);
-int						error(t_dongle *dongles, t_coders *coders,
-							int n_coders);
+int						error(t_values *values);
 
 // SUCCESS
-int						success(t_coders *coders, t_dongle *dongles,
-							int n_coders);
+int						success(t_values *values);
 
 // THREAD
 // CREATE
-int						create_threads(t_coders *coders, t_values *values);
+int						create_threads(t_values *values);
 
 // JOIN
-void					join_threads(pthread_t *thread_coder, int n_thread);
+void					join_threads(t_values *values);
 
 // COMPILE
 void					compile(t_thread *thread);

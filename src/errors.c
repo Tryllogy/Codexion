@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:48 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/24 17:36:33 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/25 18:10:36 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	error_no_args(void)
 	return (1);
 }
 
-int	error(t_dongle *dongles, t_coders *coders, int n_coders)
+int	error(t_values *values)
 {
-	if (coders)
-		free_coders(coders, n_coders);
-	if (dongles)
-		free(dongles);
+	if (values->coders)
+		free_coders(values->coders, values->number_of_coders);
+	if (values->dongles)
+		free(values->dongles);
 	return (1);
 }

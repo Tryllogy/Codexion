@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 14:43:46 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/25 14:56:47 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/25 18:39:57 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	compile(t_thread *thread)
 {
+	// thread = (t_thread *) thread;
 	int	i;
 	int	time;
 	int	boolean;
