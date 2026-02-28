@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   lst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 17:51:32 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/25 14:23:47 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/28 19:42:17 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders/coders.h"
 
-t_coders	*new_coder(int id, t_dongle *dongles, int n_coder)
+t_coders *new_coder(int id, t_dongle *dongles, int n_coder)
 {
-	t_coders	*coder;
-	int			i;
+	t_coders *coder;
+	int i;
 
+	id--;
 	if (!dongles)
 		return (NULL);
 	coder = malloc(sizeof(t_coders));
@@ -39,9 +40,9 @@ t_coders	*new_coder(int id, t_dongle *dongles, int n_coder)
 	return (coder);
 }
 
-t_coders	*add_back_coder(t_coders *coders, t_coders *new_coder)
+t_coders *add_back_coder(t_coders *coders, t_coders *new_coder)
 {
-	t_coders	*tmp;
+	t_coders *tmp;
 
 	if (!new_coder)
 		return (coders);
@@ -58,12 +59,12 @@ t_coders	*add_back_coder(t_coders *coders, t_coders *new_coder)
 	return (coders);
 }
 
-void	link_first_last_coders(t_coders *coders, t_dongle *dongles)
+void link_first_last_coders(t_coders *coders, t_dongle *dongles)
 {
-	t_coders	*tmp;
+	t_coders *tmp;
 
 	if (!coders)
-		return ;
+		return;
 	tmp = coders;
 	while (tmp->next)
 		tmp = tmp->next;
@@ -71,22 +72,4 @@ void	link_first_last_coders(t_coders *coders, t_dongle *dongles)
 	tmp->dongles[1] = &dongles[0];
 	tmp->next = coders;
 	coders->prev = tmp;
-}
-
-void	free_coders(t_coders *coders, int n_coders)
-{
-	int			i;
-	t_coders	*tmp;
-
-	if (!coders)
-		return ;
-	i = 0;
-	while (i <= n_coders)
-	{
-		tmp = coders->next;
-		if (coders)
-			free(coders);
-		coders = tmp;
-		i++;
-	}
 }

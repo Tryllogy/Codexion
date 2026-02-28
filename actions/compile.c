@@ -3,30 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   compile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 14:43:46 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/25 18:39:57 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/28 18:53:08 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders/coders.h"
 
-void	compile(t_thread *thread)
+void compile(t_thread *thread)
 {
-	// thread = (t_thread *) thread;
-	int	i;
-	int	time;
-	int	boolean;
+	int time_compile;
+	int actual_time;
 
-	i = 0;
-	boolean = 1;
-	time = thread->values->time_to_compile;
-	while (boolean)
-	{
-		usleep(1000);
-		i++;
-		if (i == time)
-			boolean = 0;
-	}
+	actual_time = get_time(thread->values->start_time);
+	time_compile = thread->values->time_to_compile;
+	printf("%d %d is compiling\n", actual_time, thread->coder->id);
+	usleep(1000 * time_compile);
 }

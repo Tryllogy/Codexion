@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/25 18:20:20 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/28 19:36:56 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders/coders.h"
 
-t_coders	*init_coders(t_coders *coders, t_values values)
+t_coders *init_coders(t_coders *coders, t_values values)
 {
-	int	i;
+	int i;
 
-	i = -1;
-	while (i++ < values.number_of_coders)
+	i = 0;
+	while (i++ <= values.number_of_coders)
 		coders = add_back_coder(coders, new_coder(i, values.dongles,
-					values.number_of_coders));
+												  values.number_of_coders));
 	link_first_last_coders(coders, values.dongles);
 	return (coders);
 }
 
-void	init_values(t_values *values, char **argv)
+void init_values(t_values *values, char **argv)
 {
 	values->number_of_coders = atoi(argv[1]);
 	values->time_to_burnout = atoi(argv[2]) * 1000;
@@ -41,15 +41,17 @@ void	init_values(t_values *values, char **argv)
 	values->coders = init_coders(values->coders, *values);
 	values->threads = NULL;
 	values->threads_coder = NULL;
-	values->threads = init_threads(values->threads, *values);
-	values->threads_coder = malloc(sizeof(pthread_t)
-			* values->number_of_coders);
+	values->threads = init_threads(values->threads, values);
+	values->threads_coder = malloc(sizeof(pthread_t) * values->number_of_coders);
+	if (values->threads_coder)
+		memset(values->threads_coder, 0, sizeof(pthread_t) * values->number_of_coders);
+	gettimeofday(&values->start_time, NULL);
 }
 
-int	check_args(int argc, char **argv)
+int check_args(int argc, char **argv)
 {
-	int	i;
-	int	n;
+	int i;
+	int n;
 
 	if (argc != 9)
 		return (1);
@@ -65,29 +67,29 @@ int	check_args(int argc, char **argv)
 	return (0);
 }
 
-t_thread	*init_threads(t_thread *threads, t_values values)
+t_thread *init_threads(t_thread *threads, t_values *values)
 {
-	int			i;
-	t_coders	*tmp;
+	int i;
+	t_coders *tmp;
 
-	threads = malloc(sizeof(t_thread) * values.number_of_coders);
+	threads = malloc(sizeof(t_thread) * values->number_of_coders);
 	if (!threads)
 		return (NULL);
 	i = 0;
-	tmp = values.coders;
-	while (i < values.number_of_coders)
+	tmp = values->coders;
+	while (i < values->number_of_coders)
 	{
 		(&threads[i])->coder = tmp;
-		(&threads[i])->values = &values;
+		(&threads[i])->values = values;
 		i++;
 		tmp = tmp->next;
 	}
 	return (threads);
 }
 
-t_dongle	*init_dongles(t_dongle *dongles, t_values values)
+t_dongle *init_dongles(t_dongle *dongles, t_values values)
 {
-	int	i;
+	int i;
 
 	dongles = malloc(sizeof(t_dongle) * values.number_of_coders);
 	if (!dongles)
@@ -96,7 +98,14 @@ t_dongle	*init_dongles(t_dongle *dongles, t_values values)
 	while (i < values.number_of_coders)
 	{
 		dongles[i].id = i;
-		pthread_mutex_init(&dongles[i].mutex, NULL);
+		dongles[i].available = 1;
+		dongles[i].mutex = malloc(sizeof(pthread_mutex_t));
+		if (!dongles[i].mutex)
+		{
+			free_mutex(dongles, values);
+			return (NULL);
+		}
+		pthread_mutex_init(dongles[i].mutex, NULL);
 		i++;
 	}
 	return (dongles);
