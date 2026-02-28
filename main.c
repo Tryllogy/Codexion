@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/28 19:39:15 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/28 21:45:26 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,11 @@ int main(int argc, char **argv)
 	init_values(&values, argv);
 	// print_values(values);
 	// print_threads(values.threads, values.number_of_coders);
-	print_coders(values.coders, values.number_of_coders);
+	// print_coders(values.coders, values.number_of_coders);
 	if (!values.coders || !values.dongles)
 		return (error(&values));
 	create_threads(&values);
+	gettimeofday(&values.start_time, NULL);
 	while (!values.finished)
 		values.finished = check_coders(&values);
 	join_threads(&values);

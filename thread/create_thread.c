@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:41:43 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/28 19:29:02 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/28 21:53:34 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ int routine(t_thread *thread)
 {
 	int n_times;
 
-	if (!thread)
-		return (1);
-
+	while (!thread->values->start_time.tv_sec)
+		usleep(10);
 	n_times = thread->values->number_of_compiles_required;
 	while (thread->coder->n_compiled < n_times && thread->coder->alive)
 	{
@@ -42,18 +41,16 @@ int routine(t_thread *thread)
 		}
 		else
 			continue;
-		// debug(thread);
-		// refactor(thread);
+		debug(thread);
+		refactor(thread);
 		if (thread->coder->alive)
 			(thread->coder->n_compiled)++;
 	}
+	if (!thread->coder->alive)
+	{ // burnout();
+	}
 	return (0);
 }
-/*
-	//TODO gere le temps avec le timestamp
-	//TODO affcichage
-	//bungee == fourchette --> partage le meme emplacement memoir
-*/
 
 int create_threads(t_values *values)
 {

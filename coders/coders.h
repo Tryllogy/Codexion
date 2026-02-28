@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/28 19:18:23 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/28 21:33:29 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_coders
 	int id;
 	int n_compiled;
 	int alive;
+	int last_compile_start;
 	struct s_dongle *dongles[2];
 	struct s_coders *next;
 	struct s_coders *prev;
@@ -101,7 +102,9 @@ void join_threads(t_values *values);
 void compile(t_thread *thread);
 
 // DEBUG
+void debug(t_thread *thread);
 
 // REFACTOR
+void refactor(t_thread *thread);
 
 #endif

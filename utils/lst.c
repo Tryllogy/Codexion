@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 17:51:32 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/28 19:42:17 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/02/28 21:17:53 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_coders *new_coder(int id, t_dongle *dongles, int n_coder)
 	coder = malloc(sizeof(t_coders));
 	if (!coder)
 		return (NULL);
-	coder->id = id;
+	coder->id = id + 1;
 	i = 0;
 	while (i <= id)
 	{
@@ -33,6 +33,7 @@ t_coders *new_coder(int id, t_dongle *dongles, int n_coder)
 			coder->dongles[0] = &dongles[i];
 		i++;
 	}
+	coder->last_compile_start = 0;
 	coder->next = NULL;
 	coder->prev = NULL;
 	coder->alive = 1;
@@ -68,7 +69,7 @@ void link_first_last_coders(t_coders *coders, t_dongle *dongles)
 	tmp = coders;
 	while (tmp->next)
 		tmp = tmp->next;
-	coders->dongles[0] = &dongles[tmp->id - 1];
+	coders->dongles[0] = &dongles[tmp->id - 2];
 	tmp->dongles[1] = &dongles[0];
 	tmp->next = coders;
 	coders->prev = tmp;
