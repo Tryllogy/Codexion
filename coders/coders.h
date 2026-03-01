@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 12:47:27 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 14:53:27 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_thread
 {
 	t_coders *coder;
 	struct s_values *values;
+	pthread_cond_t *cond;
 } t_thread;
 
 // INIT
@@ -78,11 +79,12 @@ void link_first_last_coders(t_coders *coders,
 t_coders *add_back_coder(t_coders *coders, t_coders *new_coder);
 t_coders *new_coder(int id, t_dongle *dongles, int n_coder);
 __int64_t get_time_delta(struct timeval start_time);
+int check_args(int argc, char **argv);
 
 // FREE
 int free_threads(t_thread *threads, pthread_t *thread_coder);
 void free_coders(t_coders *coders, int n_coders);
-int free_mutex(t_dongle *dongles, t_values values);
+int free_dongle(t_dongle *dongles, t_values values);
 
 // ERRORS
 int error_parsing(void);

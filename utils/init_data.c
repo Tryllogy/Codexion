@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 12:28:45 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 15:02:11 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,6 @@ void init_values(t_values *values, char **argv)
 		memset(values->thread_monitor, 0, sizeof(pthread_t));
 }
 
-int check_args(int argc, char **argv)
-{
-	int i;
-	int n;
-
-	if (argc != 9)
-		return (1);
-	i = 0;
-	while (++i < 8)
-	{
-		n = atoi(argv[i]);
-		if (n <= 0)
-			return (1);
-	}
-	if (strcmp(argv[i], "edf") != 0 && strcmp(argv[i], "fifo") != 0)
-		return (1);
-	return (0);
-}
-
 t_thread *init_threads(t_thread *threads, t_values *values)
 {
 	int i;
@@ -88,6 +69,13 @@ t_thread *init_threads(t_thread *threads, t_values *values)
 	{
 		(&threads[i])->coder = tmp;
 		(&threads[i])->values = values;
+		(&threads[i])->cond = malloc(sizeof(pthread_cond_t));
+		if (!(&threads[i])->cond)
+		{
+			free_threads(threads, values->threads_coder);
+			return (NULL);
+		}
+		pthread_cond_init((&threads[i])->cond, NULL);
 		i++;
 		tmp = tmp->next;
 	}
@@ -109,7 +97,7 @@ t_dongle *init_dongles(t_dongle *dongles, t_values values)
 		dongles[i].mutex = malloc(sizeof(pthread_mutex_t));
 		if (!dongles[i].mutex)
 		{
-			free_mutex(dongles, values);
+			free_dongle(dongles, values);
 			return (NULL);
 		}
 		pthread_mutex_init(dongles[i].mutex, NULL);

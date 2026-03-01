@@ -20,14 +20,28 @@ void free_coders(t_coders *coders, int n_coders)
 
 int free_threads(t_thread *threads, pthread_t *thread_coder)
 {
+    int i;
+
     if (threads)
+    {
+        i = 0;
+        while (i < threads->values->number_of_coders)
+        {
+            if (threads[i].cond)
+            {
+                pthread_cond_destroy(threads[i].cond);
+                free(threads[i].cond);
+            }
+            i++;
+        }
         free(threads);
+    }
     if (thread_coder)
         free(thread_coder);
     return (1);
 }
 
-int free_mutex(t_dongle *dongles, t_values values)
+int free_dongle(t_dongle *dongles, t_values values)
 {
     int i;
 
@@ -39,5 +53,6 @@ int free_mutex(t_dongle *dongles, t_values values)
             free(dongles[i].mutex);
         i++;
     }
+    free(dongles);
     return (1);
 }

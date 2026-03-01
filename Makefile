@@ -19,6 +19,7 @@ $(UTILS_DIR)/init_data.c \
 $(UTILS_DIR)/lst.c \
 $(UTILS_DIR)/ft_strlen.c \
 $(UTILS_DIR)/get_time.c \
+$(UTILS_DIR)/check_args.c \
 $(MUTEX_DIR)/mutex.c \
 $(THREAD_DIR)/create_thread.c \
 $(THREAD_DIR)/join_thread.c \
@@ -43,6 +44,6 @@ run: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
 	valgrind --leak-check=full ./codexion 5 200 2000 200 200 1 1 fifo
 
 run2: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	./codexion 3 200 2000 200 200 1 1 fifo
+	./codexion 6 800 200 200 200 1 200 fifo
 
 .PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:41:43 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 12:51:32 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 14:45:01 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ int routine(t_thread *thread)
 {
 	int n_times;
 
-	while (!thread->values->start_time.tv_sec)
-		usleep(100);
+	if (thread->values->number_of_coders == 1)
+		return (0);
 	n_times = thread->values->number_of_compiles_required;
+	if (thread->coder->id % 2 == 0)
+		usleep(thread->values->time_to_compile * 1000 * 2);
 	while (thread->coder->n_compiled < n_times && thread->coder->alive)
 	{
 		if (thread->coder->dongles[0]->available && thread->coder->dongles[1]->available)
@@ -28,13 +30,11 @@ int routine(t_thread *thread)
 			compile(thread);
 			if (!unlock_mutex(thread->coder->dongles, thread->values))
 				return (1);
+			debug(thread);
+			refactor(thread);
+			if (thread->coder->alive)
+				(thread->coder->n_compiled)++;
 		}
-		else
-			continue;
-		debug(thread);
-		refactor(thread);
-		if (thread->coder->alive)
-			(thread->coder->n_compiled)++;
 	}
 	return (0);
 }

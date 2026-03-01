@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:48 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/28 19:22:13 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 14:50:18 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int error(t_values *values)
 		free_coders(values->coders, values->number_of_coders);
 	if (values->dongles)
 	{
-		free_mutex(values->dongles, *values);
+		free_dongle(values->dongles, *values);
 		free(values->dongles);
 	}
 	return (1);
