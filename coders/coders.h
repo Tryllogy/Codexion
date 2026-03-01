@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 10:58:06 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 12:47:27 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 typedef struct s_values
 {
 	int number_of_coders;
-	unsigned long int time_to_burnout;
-	unsigned long int time_to_compile;
-	unsigned long int time_to_debug;
-	unsigned long int time_to_refactor;
+	__int64_t time_to_burnout;
+	__int64_t time_to_compile;
+	__int64_t time_to_debug;
+	__int64_t time_to_refactor;
 	int number_of_compiles_required;
-	unsigned long int dongle_cooldown;
+	__int64_t dongle_cooldown;
 	char *scheduler;
 	int finished;
 	struct s_dongle *dongles;
@@ -91,6 +91,10 @@ int error(t_values *values);
 
 // SUCCESS
 int success(t_values *values);
+
+// MUTEX
+int lock_mutex(t_dongle *dongles[2]);
+int unlock_mutex(t_dongle *dongles[2], t_values *values);
 
 // THREAD
 // CREATE

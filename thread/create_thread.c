@@ -6,24 +6,11 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:41:43 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 11:09:22 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 12:51:32 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders/coders.h"
-
-void lock_mutex(t_dongle *dongles[2])
-{
-	pthread_mutex_lock(dongles[0]->mutex);
-	pthread_mutex_lock(dongles[1]->mutex);
-}
-
-void unlock_mutex(t_dongle *dongles[2], t_values *values)
-{
-	usleep(values->dongle_cooldown);
-	pthread_mutex_unlock(dongles[0]->mutex);
-	pthread_mutex_unlock(dongles[1]->mutex);
-}
 
 int routine(t_thread *thread)
 {
@@ -36,9 +23,11 @@ int routine(t_thread *thread)
 	{
 		if (thread->coder->dongles[0]->available && thread->coder->dongles[1]->available)
 		{
-			lock_mutex(thread->coder->dongles);
+			if (!lock_mutex(thread->coder->dongles))
+				return (1);
 			compile(thread);
-			unlock_mutex(thread->coder->dongles, thread->values);
+			if (!unlock_mutex(thread->coder->dongles, thread->values))
+				return (1);
 		}
 		else
 			continue;
@@ -52,7 +41,30 @@ int routine(t_thread *thread)
 
 void monitor(t_values *values)
 {
-	values = (t_values *)values;
+	t_coders *tmp;
+	__int64_t time_delta;
+	__int64_t burned_out;
+	int i;
+
+	tmp = values->coders;
+	while (!values->finished)
+	{
+		time_delta = get_time_delta(values->start_time) - tmp->last_compile_start;
+		if (tmp->alive && time_delta > values->time_to_burnout && tmp->n_compiled < values->number_of_compiles_required)
+		{
+			burned_out = get_time_delta(values->start_time);
+			tmp->alive = 0;
+			printf("%ld %d burned out\n", burned_out, tmp->id);
+			i = 0;
+			while (i < values->number_of_coders)
+			{
+				tmp->alive = 0;
+				tmp = tmp->next;
+				i++;
+			}
+		}
+		tmp = tmp->next;
+	}
 }
 
 int create_threads(t_values *values)

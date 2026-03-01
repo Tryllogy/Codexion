@@ -9,7 +9,8 @@ UTILS_DIR := utils
 SRC_DIR := src
 THREAD_DIR := thread
 ACTIONS_DIR := actions
-FREE_DIR := frees
+FREE_DIR := free
+MUTEX_DIR := mutex
 
 SRC := main.c \
 $(SRC_DIR)/errors.c \
@@ -18,6 +19,7 @@ $(UTILS_DIR)/init_data.c \
 $(UTILS_DIR)/lst.c \
 $(UTILS_DIR)/ft_strlen.c \
 $(UTILS_DIR)/get_time.c \
+$(MUTEX_DIR)/mutex.c \
 $(THREAD_DIR)/create_thread.c \
 $(THREAD_DIR)/join_thread.c \
 $(ACTIONS_DIR)/compile.c \
@@ -38,9 +40,9 @@ fclean: clean
 re: fclean all
 
 run: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	valgrind --leak-check=full ./codexion 5 100 10 10 10 1 1 fifo
+	valgrind --leak-check=full ./codexion 5 200 2000 200 200 1 1 fifo
 
 run2: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	./codexion 3 600 200 200 200 1 1 fifo
+	./codexion 3 200 2000 200 200 1 1 fifo
 
 .PHONY: all clean fclean re

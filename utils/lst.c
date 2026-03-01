@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 17:51:32 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/28 21:17:53 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 12:35:04 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ t_coders *new_coder(int id, t_dongle *dongles, int n_coder)
 	t_coders *coder;
 	int i;
 
-	id--;
 	if (!dongles)
 		return (NULL);
 	coder = malloc(sizeof(t_coders));
@@ -27,10 +26,10 @@ t_coders *new_coder(int id, t_dongle *dongles, int n_coder)
 	i = 0;
 	while (i <= id)
 	{
-		if (i < n_coder && i == dongles[i].id && i == id)
-			coder->dongles[1] = &dongles[i];
-		if (i < n_coder && i == dongles[i].id && i == id - 1)
+		if (i < n_coder && i == id - 1)
 			coder->dongles[0] = &dongles[i];
+		if (i < n_coder && i == id)
+			coder->dongles[1] = &dongles[i];
 		i++;
 	}
 	coder->last_compile_start = 0;
@@ -69,8 +68,7 @@ void link_first_last_coders(t_coders *coders, t_dongle *dongles)
 	tmp = coders;
 	while (tmp->next)
 		tmp = tmp->next;
-	coders->dongles[0] = &dongles[tmp->id - 2];
-	tmp->dongles[1] = &dongles[0];
+	coders->dongles[0] = &dongles[tmp->id - 1];
 	tmp->next = coders;
 	coders->prev = tmp;
 }

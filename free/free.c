@@ -8,7 +8,7 @@ void free_coders(t_coders *coders, int n_coders)
     if (!coders)
         return;
     i = 0;
-    while (i <= n_coders)
+    while (i < n_coders)
     {
         tmp = coders->next;
         if (coders)

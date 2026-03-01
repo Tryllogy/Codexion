@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 10:52:26 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 12:28:45 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ t_coders *init_coders(t_coders *coders, t_values values)
 	int i;
 
 	i = 0;
-	while (i++ <= values.number_of_coders)
+	while (i < values.number_of_coders)
+	{
 		coders = add_back_coder(coders, new_coder(i, values.dongles,
 												  values.number_of_coders));
+		i++;
+	}
 	link_first_last_coders(coders, values.dongles);
 	return (coders);
 }
@@ -27,12 +30,12 @@ t_coders *init_coders(t_coders *coders, t_values values)
 void init_values(t_values *values, char **argv)
 {
 	values->number_of_coders = atoi(argv[1]);
-	values->time_to_burnout = atoi(argv[2]) * 1000;
-	values->time_to_compile = atoi(argv[3]) * 1000;
-	values->time_to_debug = atoi(argv[4]) * 1000;
-	values->time_to_refactor = atoi(argv[5]) * 1000;
+	values->time_to_burnout = atoi(argv[2]);
+	values->time_to_compile = atoi(argv[3]);
+	values->time_to_debug = atoi(argv[4]);
+	values->time_to_refactor = atoi(argv[5]);
 	values->number_of_compiles_required = atoi(argv[6]);
-	values->dongle_cooldown = atoi(argv[7]) * 1000;
+	values->dongle_cooldown = atoi(argv[7]);
 	values->scheduler = argv[8];
 	values->finished = 0;
 	values->dongles = NULL;

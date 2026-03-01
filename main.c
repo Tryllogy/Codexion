@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 11:05:05 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 12:47:56 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void print_coders(t_coders *coders, int n_coders)
 	i = 0;
 	while (i < n_coders)
 	{
-		printf("CODER[%d] : DONGLE[0] = %d | DONGLE[1] = %d\n", tmp->id,
-			   tmp->dongles[0]->id, tmp->dongles[1]->id);
+		printf("CODER[%d] : ID = %d DONGLE[0] = %d | DONGLE[1] = %d\n", tmp->id - 1,
+			   tmp->id, tmp->dongles[0]->id, tmp->dongles[1]->id);
 		i++;
 		tmp = tmp->next;
 	}
@@ -52,6 +52,18 @@ void print_values(t_values values)
 	printf("NUMBER OF COMPILES REQUIRED : %d\n", values.number_of_compiles_required);
 	printf("DONGLE COOLDOWN : %lu\n", values.dongle_cooldown);
 	printf("SCHEDULER : %s\n", values.scheduler);
+}
+
+void print_dongles(t_dongle *dongles, int n_dongles)
+{
+	int i;
+
+	i = 0;
+	while (i < n_dongles)
+	{
+		printf("DONGLE %d : ID = %d | AVAILABLE = %d\n", i, dongles[i].id, dongles[i].available);
+		i++;
+	}
 }
 
 int check_coders(t_values *values)
@@ -87,6 +99,7 @@ int main(int argc, char **argv)
 	init_values(&values, argv);
 	// print_values(values);
 	// print_threads(values.threads, values.number_of_coders);
+	// print_dongles(values.dongles, values.number_of_coders);
 	// print_coders(values.coders, values.number_of_coders);
 	if (!values.coders || !values.dongles)
 		return (error(&values));
