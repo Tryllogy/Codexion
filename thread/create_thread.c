@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:41:43 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 14:45:01 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 15:09:52 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int routine(t_thread *thread)
 	{
 		if (thread->coder->dongles[0]->available && thread->coder->dongles[1]->available)
 		{
-			if (!lock_mutex(thread->coder->dongles))
+			if (!lock_mutex(thread))
 				return (1);
 			compile(thread);
-			if (!unlock_mutex(thread->coder->dongles, thread->values))
+			if (!unlock_mutex(thread))
 				return (1);
 			debug(thread);
 			refactor(thread);

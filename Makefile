@@ -20,6 +20,7 @@ $(UTILS_DIR)/lst.c \
 $(UTILS_DIR)/ft_strlen.c \
 $(UTILS_DIR)/get_time.c \
 $(UTILS_DIR)/check_args.c \
+$(UTILS_DIR)/check_malloc.c \
 $(MUTEX_DIR)/mutex.c \
 $(THREAD_DIR)/create_thread.c \
 $(THREAD_DIR)/join_thread.c \

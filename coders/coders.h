@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 14:53:27 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 15:52:07 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_dongle
 	int id;
 	int available;
 	pthread_mutex_t *mutex;
+	pthread_cond_t *cond;
 } t_dongle;
 
 typedef struct s_coders
@@ -62,7 +63,6 @@ typedef struct s_thread
 {
 	t_coders *coder;
 	struct s_values *values;
-	pthread_cond_t *cond;
 } t_thread;
 
 // INIT
@@ -80,11 +80,12 @@ t_coders *add_back_coder(t_coders *coders, t_coders *new_coder);
 t_coders *new_coder(int id, t_dongle *dongles, int n_coder);
 __int64_t get_time_delta(struct timeval start_time);
 int check_args(int argc, char **argv);
+int check_malloc(t_values *values);
 
 // FREE
 int free_threads(t_thread *threads, pthread_t *thread_coder);
 void free_coders(t_coders *coders, int n_coders);
-int free_dongle(t_dongle *dongles, t_values values);
+void *free_dongle(t_dongle *dongles, t_values *values, int n_dongles);
 
 // ERRORS
 int error_parsing(void);
@@ -95,8 +96,8 @@ int error(t_values *values);
 int success(t_values *values);
 
 // MUTEX
-int lock_mutex(t_dongle *dongles[2]);
-int unlock_mutex(t_dongle *dongles[2], t_values *values);
+int lock_mutex(t_thread *thread);
+int unlock_mutex(t_thread *thread);
 
 // THREAD
 // CREATE
