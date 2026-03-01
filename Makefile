@@ -6,15 +6,15 @@ HEADERS_DIR := coders
 HEADERS := coders.h
 
 UTILS_DIR := utils
-SRC_DIR := src
+MAIN_RETURN_DIR := main_return
 THREAD_DIR := thread
 ACTIONS_DIR := actions
 FREE_DIR := free
 MUTEX_DIR := mutex
 
 SRC := main.c \
-$(SRC_DIR)/errors.c \
-$(SRC_DIR)/success.c \
+$(MAIN_RETURN_DIR)/errors.c \
+$(MAIN_RETURN_DIR)/success.c \
 $(UTILS_DIR)/init_data.c \
 $(UTILS_DIR)/lst.c \
 $(UTILS_DIR)/ft_strlen.c \
@@ -45,6 +45,6 @@ run: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
 	valgrind --leak-check=full ./codexion 5 200 2000 200 200 1 1 fifo
 
 run2: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	./codexion 6 800 200 200 200 1 200 fifo
+	./codexion 6 800 2000 200 200 1 200 fifo
 
 .PHONY: all clean fclean re
