@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/28 21:44:46 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 10:52:26 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ void init_values(t_values *values, char **argv)
 		memset(values->threads_coder, 0, sizeof(pthread_t) * values->number_of_coders);
 	values->start_time.tv_sec = 0;
 	values->start_time.tv_usec = 0;
+	values->thread_monitor = malloc(sizeof(pthread_t));
+	if (values->thread_monitor)
+		memset(values->thread_monitor, 0, sizeof(pthread_t));
 }
 
 int check_args(int argc, char **argv)

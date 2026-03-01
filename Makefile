@@ -38,6 +38,9 @@ fclean: clean
 re: fclean all
 
 run: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	valgrind --leak-check=full ./codexion 5 1 1 1 1 1 1 fifo
+	valgrind --leak-check=full ./codexion 5 100 10 10 10 1 1 fifo
+
+run2: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
+	./codexion 3 600 200 200 200 1 1 fifo
 
 .PHONY: all clean fclean re

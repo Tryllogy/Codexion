@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/28 21:33:29 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 10:58:06 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_values
 	struct s_coders *coders;
 	struct s_thread *threads;
 	pthread_t *threads_coder;
+	pthread_t *thread_monitor;
 	struct timeval start_time;
 } t_values;
 
@@ -76,7 +77,7 @@ void link_first_last_coders(t_coders *coders,
 							t_dongle *dongles);
 t_coders *add_back_coder(t_coders *coders, t_coders *new_coder);
 t_coders *new_coder(int id, t_dongle *dongles, int n_coder);
-int get_time(struct timeval start_time);
+__int64_t get_time_delta(struct timeval start_time);
 
 // FREE
 int free_threads(t_thread *threads, pthread_t *thread_coder);

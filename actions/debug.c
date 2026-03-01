@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 14:43:41 by tchemin           #+#    #+#             */
-/*   Updated: 2026/02/28 21:32:04 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/01 10:57:24 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 void debug(t_thread *thread)
 {
     int actual_time;
+    int time_debug;
 
     if (!thread->coder->alive)
         return;
 
-    actual_time = get_time(thread->values->start_time);
+    actual_time = get_time_delta(thread->values->start_time);
+    time_debug = thread->values->time_to_debug;
     thread->coder->last_compile_start = actual_time;
     printf("%d %d is debuging\n", actual_time, thread->coder->id);
+    usleep(time_debug);
 }
