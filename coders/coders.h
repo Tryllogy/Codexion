@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 15:52:07 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/02 12:56:43 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ typedef struct s_values
 	struct s_thread *threads;
 	pthread_t *threads_coder;
 	pthread_t *thread_monitor;
+	pthread_mutex_t *m_print;
 	struct timeval start_time;
 } t_values;
 
 typedef struct s_dongle
 {
 	int id;
-	int available;
 	pthread_mutex_t *mutex;
 	pthread_cond_t *cond;
 } t_dongle;

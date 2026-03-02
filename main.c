@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 15:19:36 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/02 12:56:08 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void print_dongles(t_dongle *dongles, int n_dongles)
 	i = 0;
 	while (i < n_dongles)
 	{
-		printf("DONGLE %d : ID = %d | AVAILABLE = %d\n", i, dongles[i].id, dongles[i].available);
+		printf("DONGLE %d : ID = %d\n", i, dongles[i].id);
 		i++;
 	}
 }

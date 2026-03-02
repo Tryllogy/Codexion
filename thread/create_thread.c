@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:41:43 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 15:09:52 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/02 13:01:06 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,20 @@ int routine(t_thread *thread)
 		usleep(thread->values->time_to_compile * 1000 * 2);
 	while (thread->coder->n_compiled < n_times && thread->coder->alive)
 	{
-		if (thread->coder->dongles[0]->available && thread->coder->dongles[1]->available)
-		{
-			if (!lock_mutex(thread))
-				return (1);
-			compile(thread);
-			if (!unlock_mutex(thread))
-				return (1);
-			debug(thread);
-			refactor(thread);
-			if (thread->coder->alive)
-				(thread->coder->n_compiled)++;
-		}
+		if (!lock_mutex(thread))
+			return (1);
+		compile(thread);
+		if (!unlock_mutex(thread))
+			return (1);
+		debug(thread);
+		refactor(thread);
+		if (thread->coder->alive)
+			(thread->coder->n_compiled)++;
 	}
 	return (0);
 }
 
-void monitor(t_values *values)
+void monitor_burnout(t_values *values)
 {
 	t_coders *tmp;
 	__int64_t time_delta;
@@ -54,7 +51,9 @@ void monitor(t_values *values)
 		{
 			burned_out = get_time_delta(values->start_time);
 			tmp->alive = 0;
+			pthread_mutex_lock(values->m_print);
 			printf("%ld %d burned out\n", burned_out, tmp->id);
+			pthread_mutex_unlock(values->m_print);
 			i = 0;
 			while (i < values->number_of_coders)
 			{
@@ -81,7 +80,7 @@ int create_threads(t_values *values)
 			return (1);
 		i++;
 	}
-	if (pthread_create(&*values->thread_monitor, NULL, (void *)monitor, values) != 0)
+	if (pthread_create(&*values->thread_monitor, NULL, (void *)monitor_burnout, values) != 0)
 		return (1);
 	return (0);
 }
