@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/02 12:56:43 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/02 15:08:22 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,28 @@
 typedef struct s_values
 {
 	int number_of_coders;
+	int number_of_compiles_required;
+	int finished;
 	__int64_t time_to_burnout;
 	__int64_t time_to_compile;
 	__int64_t time_to_debug;
 	__int64_t time_to_refactor;
-	int number_of_compiles_required;
 	__int64_t dongle_cooldown;
 	char *scheduler;
-	int finished;
 	struct s_dongle *dongles;
 	struct s_coders *coders;
 	struct s_thread *threads;
+	struct timeval start_time;
 	pthread_t *threads_coder;
 	pthread_t *thread_monitor;
 	pthread_mutex_t *m_print;
-	struct timeval start_time;
 } t_values;
 
 typedef struct s_dongle
 {
 	int id;
+	int available;
+	__int64_t next_available_time;
 	pthread_mutex_t *mutex;
 	pthread_cond_t *cond;
 } t_dongle;
@@ -71,6 +73,7 @@ t_coders *init_coders(t_coders *coders, t_values values);
 int check_args(int argc, char **argv);
 t_thread *init_threads(t_thread *threads, t_values *values);
 t_dongle *init_dongles(t_dongle *dongles, t_values values);
+void init_ts(struct timespec *ts, t_dongle *dongle, __int64_t actual_time);
 
 // UTILS
 int ft_strlen(char *s);
@@ -114,5 +117,9 @@ void debug(t_thread *thread);
 
 // REFACTOR
 void refactor(t_thread *thread);
+
+// TAKE DONGLE
+int take_dongle(t_thread *thread);
+int put_dongle_down(t_thread *thread);
 
 #endif

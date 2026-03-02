@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:48 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/01 15:55:34 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/02 13:14:09 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ int error(t_values *values)
 		free_dongle(values->dongles, values, values->number_of_coders);
 	if (values->threads)
 		free_threads(values->threads, values->threads_coder);
+	if (values->thread_monitor)
+		free(values->thread_monitor);
 	return (1);
 }

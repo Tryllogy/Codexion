@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/02 12:58:38 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/02 14:06:45 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ t_dongle *init_dongles(t_dongle *dongles, t_values values)
 	{
 		dongles[i].mutex = NULL;
 		dongles[i].cond = NULL;
+		dongles[i].available = 1;
+		dongles[i].next_available_time = 0;
 		dongles[i].id = i;
 		dongles[i].mutex = malloc(sizeof(pthread_mutex_t));
 		if (dongles[i].mutex)

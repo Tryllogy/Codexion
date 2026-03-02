@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 14:43:46 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/02 13:00:09 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/02 13:51:15 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void compile(t_thread *thread)
 	int time_compile;
 	int actual_time;
 
-	if (!thread->coder->alive)
+	if (!thread->coder->alive || !thread->coder->dongles[0] || !thread->coder->dongles[1])
 		return;
 
 	actual_time = get_time_delta(thread->values->start_time);

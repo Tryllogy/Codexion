@@ -10,7 +10,6 @@ MAIN_RETURN_DIR := main_return
 THREAD_DIR := thread
 ACTIONS_DIR := actions
 FREE_DIR := free
-MUTEX_DIR := mutex
 INIT_DIR := init
 
 SRC := main.c \
@@ -21,15 +20,16 @@ $(UTILS_DIR)/ft_strlen.c \
 $(UTILS_DIR)/get_time.c \
 $(UTILS_DIR)/check_args.c \
 $(UTILS_DIR)/check_malloc.c \
-$(MUTEX_DIR)/mutex.c \
 $(THREAD_DIR)/create_thread.c \
 $(THREAD_DIR)/join_thread.c \
 $(ACTIONS_DIR)/compile.c \
 $(ACTIONS_DIR)/debug.c \
 $(ACTIONS_DIR)/refactor.c \
+$(ACTIONS_DIR)/use_dongle.c \
 $(FREE_DIR)/free.c \
 $(INIT_DIR)/init_values.c \
-$(INIT_DIR)/init_structs.c
+$(INIT_DIR)/init_structs.c \
+$(INIT_DIR)/init_time.c
 
 all:
 	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
@@ -47,6 +47,6 @@ run: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
 	valgrind --leak-check=full ./codexion 5 800 200 200 200 1 1 fifo
 
 run2: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	./codexion 6 800 200 200 200 1 200 fifo
+	./codexion 6 800 200 200 200 1 100 fifo
 
 .PHONY: all clean fclean re
