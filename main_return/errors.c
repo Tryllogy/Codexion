@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:48 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/02 13:14:09 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/06 17:18:11 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders/coders.h"
 
-int error_parsing(void)
+int	error_parsing(void)
 {
 	printf("Error parsing arguments.\n");
 	return (1);
 }
 
-int error_no_args(void)
+int	error_no_args(void)
 {
 	printf("Error not enough arguments passed. (need 8)\n");
 	return (1);
 }
 
-int error(t_values *values)
+int	error(t_values *values)
 {
 	if (values->coders)
-		free_coders(values->coders, values->number_of_coders);
+		free_coders(values->coders);
 	if (values->dongles)
 		free_dongle(values->dongles, values, values->number_of_coders);
 	if (values->threads)
