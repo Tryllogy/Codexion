@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/07 17:27:29 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/07 18:08:50 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_values
 	__int64_t		time_to_debug;
 	__int64_t		time_to_refactor;
 	__int64_t		dongle_cooldown;
+	int				id_next_coder;
 	char			*scheduler;
 	struct s_dongle	*dongles;
 	struct s_coders	*coders;
@@ -39,6 +40,8 @@ typedef struct s_values
 	pthread_t		*threads_coder;
 	pthread_t		*thread_monitor;
 	pthread_mutex_t	*mut;
+	pthread_mutex_t	*sched_mut;
+	pthread_cond_t	*sched_cond;
 }					t_values;
 
 typedef struct s_dongle
@@ -56,7 +59,9 @@ typedef struct s_coders
 	int				id;
 	int				n_compiled;
 	int				alive;
-	int				last_compile_start;
+	int				waiting;
+	__int64_t		last_compile_start_time;
+	__int64_t		next_burnout_time;
 	struct s_dongle	*dongles[2];
 }					t_coders;
 
@@ -67,7 +72,7 @@ typedef struct s_thread
 }					t_thread;
 
 // INIT
-void				init_values(t_values *values, char **argv);
+int					init_values(t_values *values, char **argv);
 t_coders			*init_coders(t_coders *coders, t_values values);
 int					check_args(int argc, char **argv);
 t_thread			*init_threads(t_thread *threads, t_values *values);
@@ -85,7 +90,6 @@ t_coders			*add_back_coder(t_coders *coders, t_coders *new_coder);
 t_coders			*new_coder(int id, t_dongle *dongles, int n_coder);
 __int64_t			get_time_delta(struct timeval start_time);
 int					check_args(int argc, char **argv);
-int					check_malloc(t_values *values);
 
 // FREE
 int					free_threads(t_thread *threads, pthread_t *thread_coder);

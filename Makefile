@@ -21,7 +21,6 @@ $(MAIN_RETURN_DIR)/success.c \
 $(UTILS_DIR)/ft_strlen.c \
 $(UTILS_DIR)/get_time.c \
 $(UTILS_DIR)/check_args.c \
-$(UTILS_DIR)/check_malloc.c \
 $(THREAD_DIR)/create_thread.c \
 $(THREAD_DIR)/join_thread.c \
 $(ACTIONS_DIR)/compile.c \
@@ -53,12 +52,12 @@ fclean: clean
 re: fclean all
 
 run_v: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	timeout 300s valgrind --leak-check=full --show-leak-kinds=all --log-file=memcheck.log ./codexion 4 20 2 2 2 1 2 fifo
+	timeout 300s valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=memcheck.log ./codexion 4 20 2 2 2 1 2 fifo
 
 run_h: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
 	valgrind --tool=helgrind --fair-sched=yes --log-file=helgrind-gen.log --read-var-info=yes --num-callers=20 --gen-suppressions=all ./codexion 4 20 2 2 2 1 2 fifo
 
 run: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	./codexion 6 800 200 200 200 1 100 fifo
+	./codexion 6 800 2000 200 200 1 100 fifo
 
 .PHONY: all clean fclean re

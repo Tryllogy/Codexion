@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/07 17:29:53 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/07 18:05:13 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,11 @@ int	main(int argc, char **argv)
 
 	if (check_args(argc, argv))
 		return (error_parsing());
-	init_values(&values, argv);
 	// print_values(values);
 	// print_dongles(values.dongles, values.number_of_coders);
 	// print_coders(values.coders, values.number_of_coders);
 	// print_threads(values.threads, values.number_of_coders);
-	if (check_malloc(&values))
+	if (init_values(&values, argv))
 		return (error(&values));
 	gettimeofday(&values.start_time, NULL);
 	create_threads(&values);

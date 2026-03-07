@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:48 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/06 17:18:11 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/07 18:00:30 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,20 @@ int	error(t_values *values)
 		free_threads(values->threads, values->threads_coder);
 	if (values->thread_monitor)
 		free(values->thread_monitor);
+	if (values->mut)
+	{
+		pthread_mutex_destroy(values->mut);
+		free(values->mut);
+	}
+	if (values->sched_mut)
+	{
+		pthread_mutex_destroy(values->sched_mut);
+		free(values->sched_mut);
+	}
+	if (values->sched_cond)
+	{
+		pthread_cond_destroy(values->sched_cond);
+		free(values->sched_cond);
+	}
 	return (1);
 }

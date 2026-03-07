@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/06 19:18:47 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/07 17:44:27 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ t_coders	*init_coders(t_coders *coders, t_values values)
 		coders[i].id = i + 1;
 		coders[i].n_compiled = 0;
 		coders[i].alive = 1;
-		coders[i].last_compile_start = 0;
+		coders[i].last_compile_start_time = 0;
+		coders[i].waiting = 0;
+		coders[i].next_burnout_time = 0;
 		link_coder_dongle(&coders[i], values, i);
 		i++;
 	}
