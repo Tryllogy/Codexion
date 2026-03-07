@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/06 19:19:27 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/07 17:29:53 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	main(int argc, char **argv)
 		return (error(&values));
 	gettimeofday(&values.start_time, NULL);
 	create_threads(&values);
-	while (!values.finished)
+	while (!set_finish(&values))
 	{
 		tmp = check_coders(&values);
 		pthread_mutex_lock(values.mut);

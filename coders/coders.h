@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/06 17:17:53 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/07 17:27:29 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,16 @@ void				debug(t_thread *thread);
 
 // REFACTOR
 void				refactor(t_thread *thread);
+
+// MONITOR
+void				monitor_burnout(t_values *values);
+
+// SETTER GETTER
+int					set_finish(t_values *values);
+t_coders			*set_coders(t_values *values);
+
+// ROUTINE
+int					routine(t_thread *thread);
 
 // TAKE DONGLE
 int					take_dongle(t_thread *thread);
