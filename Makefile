@@ -57,7 +57,10 @@ run_v: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
 run_h: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
 	valgrind --tool=helgrind --fair-sched=yes --log-file=helgrind-gen.log --read-var-info=yes --num-callers=20 --gen-suppressions=all ./codexion 4 20 2 2 2 1 2 fifo
 
-run: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
+run_fifo: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
 	./codexion 6 800 2000 200 200 1 100 fifo
+
+run_edf: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
+	./codexion 6 800 2000 200 200 1 100 edf
 
 .PHONY: all clean fclean re

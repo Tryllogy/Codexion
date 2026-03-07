@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/07 18:08:50 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/07 18:37:49 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,6 @@ int					take_dongle(t_thread *thread);
 int					put_dongle_down(t_thread *thread);
 
 // EDF
-t_coders			*edf(t_values *values);
+t_coders			*edf(t_thread *thread);
 
 #endif
