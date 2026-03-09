@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/07 18:05:13 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 13:58:21 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ int	main(int argc, char **argv)
 	// print_threads(values.threads, values.number_of_coders);
 	if (init_values(&values, argv))
 		return (error(&values));
+	if (strcmp(values.scheduler, "edf") == 0)
+		if (init_queue(&values))
+			return (error(&values));
 	gettimeofday(&values.start_time, NULL);
 	create_threads(&values);
 	while (!set_finish(&values))

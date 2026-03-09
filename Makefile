@@ -28,11 +28,13 @@ $(ACTIONS_DIR)/debug.c \
 $(ACTIONS_DIR)/refactor.c \
 $(ACTIONS_DIR)/use_dongle.c \
 $(ACTIONS_DIR)/routine.c \
+$(ACTIONS_DIR)/wait_turn.c \
 $(ACTIONS_DIR)/monitor.c \
 $(FREE_DIR)/free.c \
 $(INIT_DIR)/init_struct_utils.c \
-$(INIT_DIR)/init_values.c \
 $(INIT_DIR)/init_structs.c \
+$(INIT_DIR)/init_values.c \
+$(INIT_DIR)/init_values_utils.c \
 $(INIT_DIR)/init_time.c \
 $(EDF_DIR)/edf.c \
 $(SET_GET_DIR)/set_get.c \
@@ -52,15 +54,15 @@ fclean: clean
 re: fclean all
 
 run_v: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	timeout 300s valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=memcheck.log ./codexion 4 20 2 2 2 1 2 fifo
+	timeout 300s valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=memcheck.log ./codexion 4 20 2 2 2 1 2 edf
 
 run_h: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	valgrind --tool=helgrind --fair-sched=yes --log-file=helgrind-gen.log --read-var-info=yes --num-callers=20 --gen-suppressions=all ./codexion 4 20 2 2 2 1 2 fifo
+	valgrind --tool=helgrind --fair-sched=yes --history-level=full --log-file=helgrind-gen.log --read-var-info=yes ./codexion 4 20 2 2 2 1 2 edf
 
 run_fifo: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	./codexion 6 800 2000 200 200 1 100 fifo
+	./codexion 6 800 200 200 200 1 100 fifo
 
 run_edf: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	./codexion 6 800 2000 200 200 1 100 edf
+	./codexion 6 800 200 200 200 1 100 edf
 
 .PHONY: all clean fclean re

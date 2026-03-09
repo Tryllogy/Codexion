@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/07 18:37:49 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 15:08:43 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct s_values
 	pthread_mutex_t	*mut;
 	pthread_mutex_t	*sched_mut;
 	pthread_cond_t	*sched_cond;
+	struct s_coders	**queue;
+	int				n_in_queue;
 }					t_values;
 
 typedef struct s_dongle
@@ -61,7 +63,7 @@ typedef struct s_coders
 	int				alive;
 	int				waiting;
 	__int64_t		last_compile_start_time;
-	__int64_t		next_burnout_time;
+	__int64_t		burnout;
 	struct s_dongle	*dongles[2];
 }					t_coders;
 
@@ -72,9 +74,14 @@ typedef struct s_thread
 }					t_thread;
 
 // INIT
+// VALUES
 int					init_values(t_values *values, char **argv);
+pthread_cond_t		*init_cond_values(int size);
+pthread_mutex_t		*init_mutex_values(int size);
+pthread_t			*init_thread_values(int size);
+
+// STRUCT
 t_coders			*init_coders(t_coders *coders, t_values values);
-int					check_args(int argc, char **argv);
 t_thread			*init_threads(t_thread *threads, t_values *values);
 t_dongle			*init_dongles(t_dongle *dongles, t_values values);
 void				init_ts(struct timespec *ts, t_dongle *dongle,
@@ -82,21 +89,26 @@ void				init_ts(struct timespec *ts, t_dongle *dongle,
 void				link_coder_dongle(t_coders *coder, t_values values, int id);
 void				link_dongle_coder(t_coders *coders, t_values values,
 						int id);
+int					init_queue(t_values *values);
 
 // UTILS
 int					ft_strlen(char *s);
-void				link_first_last_coders(t_coders *coders, t_dongle *dongles);
-t_coders			*add_back_coder(t_coders *coders, t_coders *new_coder);
-t_coders			*new_coder(int id, t_dongle *dongles, int n_coder);
-__int64_t			get_time_delta(struct timeval start_time);
 int					check_args(int argc, char **argv);
 
+// TIME
+__int64_t			get_time_delta(struct timeval start_time);
+
+// ARGS
+int					check_args(int argc, char **argv);
+
+// FREE
 // FREE
 int					free_threads(t_thread *threads, pthread_t *thread_coder);
 void				free_coders(t_coders *coders);
 void				*free_dongle(t_dongle *dongles, t_values *values,
 						int n_dongles);
 
+// RETURN MAIN
 // ERRORS
 int					error_parsing(void);
 int					error_no_args(void);
@@ -105,10 +117,6 @@ int					error(t_values *values);
 // SUCCESS
 int					success(t_values *values);
 
-// MUTEX
-int					lock_mutex(t_thread *thread);
-int					unlock_mutex(t_thread *thread);
-
 // THREAD
 // CREATE
 int					create_threads(t_values *values);
@@ -116,6 +124,7 @@ int					create_threads(t_values *values);
 // JOIN
 void				join_threads(t_values *values);
 
+// ACTIONS
 // COMPILE
 void				compile(t_thread *thread);
 
@@ -139,6 +148,10 @@ int					routine(t_thread *thread);
 int					take_dongle(t_thread *thread);
 int					put_dongle_down(t_thread *thread);
 
+// WAIT TURN
+void				wait_for_turn(t_thread *thread);
+
+// EDF
 // EDF
 t_coders			*edf(t_thread *thread);
 

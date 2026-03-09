@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/21 18:22:07 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/07 17:58:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 14:05:31 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@ int	success(t_values *values)
 	free(values->sched_mut);
 	pthread_cond_destroy(values->sched_cond);
 	free(values->sched_cond);
+	if (values->queue)
+		free(values->queue);
 	return (0);
 }

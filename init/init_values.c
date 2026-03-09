@@ -6,44 +6,11 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:56:26 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/07 18:08:32 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 14:16:06 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders/coders.h"
-
-static pthread_mutex_t	*init_mutex_values(int size)
-{
-	pthread_mutex_t	*mut;
-
-	mut = malloc(sizeof(pthread_mutex_t) * size);
-	if (!mut)
-		return (NULL);
-	pthread_mutex_init(mut, NULL);
-	return (mut);
-}
-
-static pthread_t	*init_thread_values(int size)
-{
-	pthread_t	*thread;
-
-	thread = malloc(sizeof(pthread_t) * size);
-	if (!thread)
-		return (NULL);
-	memset(thread, 0, sizeof(pthread_t) * size);
-	return (thread);
-}
-
-static pthread_cond_t	*init_cond_values(int size)
-{
-	pthread_cond_t	*cond;
-
-	cond = malloc(sizeof(pthread_cond_t) * size);
-	if (!cond)
-		return (NULL);
-	pthread_cond_init(cond, NULL);
-	return (cond);
-}
 
 int	init_values_malloc(t_values *values)
 {
@@ -86,6 +53,7 @@ int	init_values(t_values *values, char **argv)
 	values->scheduler = argv[8];
 	values->finished = 0;
 	values->id_next_coder = 0;
+	values->n_in_queue = 0;
 	values->dongles = NULL;
 	values->coders = NULL;
 	values->threads = NULL;
@@ -94,6 +62,7 @@ int	init_values(t_values *values, char **argv)
 	values->mut = NULL;
 	values->sched_mut = NULL;
 	values->sched_cond = NULL;
+	values->queue = NULL;
 	if (init_values_malloc(values))
 		return (1);
 	values->start_time.tv_sec = 0;

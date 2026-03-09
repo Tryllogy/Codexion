@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:44:47 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/07 18:39:19 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 17:02:48 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	take_dongle(t_thread *thread)
 	t_dongle	*dongle1;
 	t_dongle	*dongle2;
 
+	if (strcmp(thread->values->scheduler, "edf") == 0)
+		wait_for_turn(thread);
 	dongle1 = thread->coder->dongles[0];
 	dongle2 = thread->coder->dongles[1];
 	if (dongle1 < dongle2)
