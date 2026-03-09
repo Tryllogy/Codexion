@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 15:08:43 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 18:26:23 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ typedef struct s_values
 	struct timeval	start_time;
 	pthread_t		*threads_coder;
 	pthread_t		*thread_monitor;
-	pthread_mutex_t	*mut;
-	pthread_mutex_t	*sched_mut;
-	pthread_cond_t	*sched_cond;
+	pthread_mutex_t	mut;
+	pthread_mutex_t	sched_mut;
+	pthread_cond_t	sched_cond;
 	struct s_coders	**queue;
 	int				n_in_queue;
 }					t_values;
@@ -52,8 +52,8 @@ typedef struct s_dongle
 	int				available;
 	struct s_coders	*coders[2];
 	__int64_t		next_available_time;
-	pthread_mutex_t	*mutex;
-	pthread_cond_t	*cond;
+	pthread_mutex_t	mutex;
+	pthread_cond_t	cond;
 }					t_dongle;
 
 typedef struct s_coders

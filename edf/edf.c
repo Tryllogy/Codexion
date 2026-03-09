@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:43:12 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 15:00:13 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 17:37:53 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ t_coders	*edf(t_thread *thread)
 {
 	int	n_in_queue;
 
-	pthread_mutex_lock(thread->values->sched_mut);
+	pthread_mutex_lock(&thread->values->sched_mut);
 	n_in_queue = thread->values->n_in_queue;
 	thread->coder->waiting = 1;
 	if (n_in_queue >= thread->values->number_of_coders)
 	{
-		pthread_mutex_unlock(thread->values->sched_mut);
+		pthread_mutex_unlock(&thread->values->sched_mut);
 		return (NULL);
 	}
 	thread->values->queue[n_in_queue] = thread->coder;
 	thread->values->n_in_queue = n_in_queue + 1;
 	sort_queue(thread->values->queue, n_in_queue + 1);
-	pthread_mutex_unlock(thread->values->sched_mut);
+	pthread_mutex_unlock(&thread->values->sched_mut);
 	return (NULL);
 }

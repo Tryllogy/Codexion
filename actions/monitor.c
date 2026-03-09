@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 17:16:00 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/07 18:10:26 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 17:30:05 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	finish(t_values *values, int id)
 	int			i;
 	__int64_t	burned_out;
 
-	pthread_mutex_lock(values->mut);
+	pthread_mutex_lock(&values->mut);
 	burned_out = get_time_delta(values->start_time);
 	printf("%ld %d burned out\n", burned_out, values->coders[id].id);
 	i = 0;
@@ -27,7 +27,7 @@ int	finish(t_values *values, int id)
 		i++;
 	}
 	values->finished = 1;
-	pthread_mutex_unlock(values->mut);
+	pthread_mutex_unlock(&values->mut);
 	return (1);
 }
 
@@ -42,11 +42,11 @@ int	make_monitor(t_coders *coders, t_values *values)
 	i = 0;
 	while (i < values->number_of_coders)
 	{
-		pthread_mutex_lock(values->mut);
+		pthread_mutex_lock(&values->mut);
 		alive = coders[i].alive;
 		n_compiled = coders[i].n_compiled;
 		last_start = coders[i].last_compile_start_time;
-		pthread_mutex_unlock(values->mut);
+		pthread_mutex_unlock(&values->mut);
 		time_delta = get_time_delta(values->start_time) - last_start;
 		if (alive && time_delta > values->time_to_burnout
 			&& n_compiled < values->number_of_compiles_required)

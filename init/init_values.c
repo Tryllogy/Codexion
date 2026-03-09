@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:56:26 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 14:16:06 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 18:26:47 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 int	init_values_malloc(t_values *values)
 {
-	values->mut = init_mutex_values(1);
-	if (!values->mut)
+	if (pthread_mutex_init(&values->mut, NULL) != 0)
 		return (1);
-	values->sched_mut = init_mutex_values(1);
-	if (!values->sched_mut)
+	if (pthread_mutex_init(&values->sched_mut, NULL) != 0)
 		return (1);
 	values->dongles = init_dongles(values->dongles, *values);
 	if (!values->dongles)
@@ -35,8 +33,7 @@ int	init_values_malloc(t_values *values)
 	values->thread_monitor = init_thread_values(1);
 	if (!values->thread_monitor)
 		return (1);
-	values->sched_cond = init_cond_values(1);
-	if (!values->sched_cond)
+	if (pthread_cond_init(&values->sched_cond, NULL) != 0)
 		return (1);
 	return (0);
 }
@@ -59,9 +56,6 @@ int	init_values(t_values *values, char **argv)
 	values->threads = NULL;
 	values->threads_coder = NULL;
 	values->thread_monitor = NULL;
-	values->mut = NULL;
-	values->sched_mut = NULL;
-	values->sched_cond = NULL;
 	values->queue = NULL;
 	if (init_values_malloc(values))
 		return (1);

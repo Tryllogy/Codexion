@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 17:26:48 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/07 17:27:12 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 17:38:10 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	set_finish(t_values *values)
 {
 	int	is_finished;
 
-	pthread_mutex_lock(values->mut);
+	pthread_mutex_lock(&values->mut);
 	is_finished = values->finished;
-	pthread_mutex_unlock(values->mut);
+	pthread_mutex_unlock(&values->mut);
 	return (is_finished);
 }
 
@@ -26,8 +26,8 @@ t_coders	*set_coders(t_values *values)
 {
 	t_coders	*coders;
 
-	pthread_mutex_lock(values->mut);
+	pthread_mutex_lock(&values->mut);
 	coders = values->coders;
-	pthread_mutex_unlock(values->mut);
+	pthread_mutex_unlock(&values->mut);
 	return (coders);
 }

@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 14:43:52 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 17:35:23 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,9 @@ int	init_dongles_malloc(t_dongle *dongle)
 {
 	dongle->coders[0] = NULL;
 	dongle->coders[1] = NULL;
-	dongle->mutex = malloc(sizeof(pthread_mutex_t));
-	if (dongle->mutex)
-		pthread_mutex_init(dongle->mutex, NULL);
-	dongle->cond = malloc(sizeof(pthread_cond_t));
-	if (dongle->cond)
-		pthread_cond_init(dongle->cond, NULL);
-	if (!dongle->cond || !dongle->mutex)
+	if (pthread_mutex_init(&dongle->mutex, NULL) != 0)
+		return (1);
+	if (pthread_cond_init(&dongle->cond, NULL) != 0)
 		return (1);
 	return (0);
 }
@@ -84,8 +80,6 @@ t_dongle	*init_dongles(t_dongle *dongles, t_values values)
 	i = 0;
 	while (i < values.number_of_coders)
 	{
-		dongles[i].mutex = NULL;
-		dongles[i].cond = NULL;
 		dongles[i].available = 1;
 		dongles[i].next_available_time = 0;
 		dongles[i].id = i;

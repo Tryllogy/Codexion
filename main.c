@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:40:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 13:58:21 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 17:27:49 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ int	check_coders(t_values *values)
 	i = 0;
 	while (i < n_thread)
 	{
-		pthread_mutex_lock(values->mut);
+		pthread_mutex_lock(&values->mut);
 		if (values->threads[i].coder->alive
 			&& values->threads[i].coder->n_compiled >= time_to_compile)
 			finished++;
 		else if (values->threads[i].coder->alive == 0)
 			finished++;
-		pthread_mutex_unlock(values->mut);
+		pthread_mutex_unlock(&values->mut);
 		i++;
 	}
 	if (finished == n_thread)
@@ -119,9 +119,9 @@ int	main(int argc, char **argv)
 	while (!set_finish(&values))
 	{
 		tmp = check_coders(&values);
-		pthread_mutex_lock(values.mut);
+		pthread_mutex_lock(&values.mut);
 		values.finished = tmp;
-		pthread_mutex_unlock(values.mut);
+		pthread_mutex_unlock(&values.mut);
 	}
 	join_threads(&values);
 	return (success(&values));

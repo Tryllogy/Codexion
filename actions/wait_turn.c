@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 15:04:06 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 17:10:24 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/09 17:32:51 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,19 @@ int	is_waiting(t_thread *thread)
 
 void	wait_for_turn(t_thread *thread)
 {
-	pthread_mutex_lock(thread->values->sched_mut);
+	pthread_mutex_lock(&thread->values->sched_mut);
 	if (thread->values->n_in_queue <= 0 || !is_waiting(thread))
 	{
-		pthread_mutex_unlock(thread->values->sched_mut);
+		pthread_mutex_unlock(&thread->values->sched_mut);
 		return ;
 	}
 	while (thread->coder != thread->values->queue[0])
-		pthread_cond_wait(thread->values->sched_cond,
-			thread->values->sched_mut);
+		pthread_cond_wait(&thread->values->sched_cond,
+			&thread->values->sched_mut);
 	move_queue(thread->values->queue, thread->values->n_in_queue);
 	thread->values->queue[thread->values->n_in_queue - 1] = NULL;
 	thread->values->n_in_queue--;
 	thread->coder->waiting = 0;
-	pthread_cond_broadcast(thread->values->sched_cond);
-	pthread_mutex_unlock(thread->values->sched_mut);
+	pthread_cond_broadcast(&thread->values->sched_cond);
+	pthread_mutex_unlock(&thread->values->sched_mut);
 }

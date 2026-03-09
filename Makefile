@@ -1,7 +1,7 @@
 NAME := codexion
 CC := cc
 CFLAGS := -Wall -Wextra -Werror -pthread
-DEBUG_FLAGS := -g3
+DEBUG_FLAGS := -g -gdwarf-2
 
 HEADERS_DIR := coders
 HEADERS := coders.h
@@ -57,7 +57,7 @@ run_v: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
 	timeout 300s valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=memcheck.log ./codexion 4 20 2 2 2 1 2 edf
 
 run_h: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	valgrind --tool=helgrind --fair-sched=yes --history-level=full --log-file=helgrind-gen.log --read-var-info=yes ./codexion 4 20 2 2 2 1 2 edf
+	valgrind --tool=helgrind --fair-sched=yes --history-level=full --log-file=helgrind-gen.log --read-var-info=no ./codexion 4 20 2 2 2 1 2 edf
 
 run_fifo: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
 	./codexion 6 800 200 200 200 1 100 fifo
