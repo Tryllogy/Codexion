@@ -1,7 +1,6 @@
 NAME := codexion
 CC := cc
 CFLAGS := -Wall -Wextra -Werror -pthread
-DEBUG_FLAGS := -g -gdwarf-2
 MODE := 
 
 HEADERS_DIR := coders
@@ -42,9 +41,6 @@ $(SET_GET_DIR)/set_get.c \
 all:
 	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
 
-debug:
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) $(SRC) -o $(NAME)
-
 clean:
 	rm -rf *.o *.d
 
@@ -53,13 +49,7 @@ fclean: clean
 
 re: fclean all
 
-run_v:
-	timeout 300s valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=memcheck.log ./codexion 4 20 2 2 2 1 2 $(MODE)
-
-run_h:
-	valgrind --tool=helgrind --fair-sched=yes --history-level=full --log-file=helgrind-gen.log --read-var-info=no ./codexion 4 20 2 2 2 1 2 $(MODE)
-
 run:
-	./codexion 5 800 200 200 200 3 0 $(MODE)
+	./codexion 4 800 200 200 200 1 100 $(MODE)
 
 .PHONY: all clean fclean re
