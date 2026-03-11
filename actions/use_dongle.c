@@ -6,13 +6,13 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:44:47 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 18:26:37 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/11 16:02:18 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders/coders.h"
-#include <unistd.h>
 #include <stdio.h>
+#include <unistd.h>
 
 void	print_dongle_taken(t_thread *thread)
 {
@@ -34,6 +34,7 @@ void	lock_dongle(t_thread *thread, t_dongle *dongle)
 {
 	__int64_t		actual_time;
 	struct timespec	ts;
+
 	if (pthread_mutex_lock(&dongle->mutex) != 0)
 		return ;
 	actual_time = get_time_delta(thread->values->start_time);
@@ -47,6 +48,8 @@ void	lock_dongle(t_thread *thread, t_dongle *dongle)
 	actual_time = get_time_delta(thread->values->start_time);
 	dongle->next_available_time = actual_time + thread->values->dongle_cooldown;
 	print_dongle_taken(thread);
+	dongle->owner = thread->this_thread;
+	dongle->owner_set = 1;
 	pthread_mutex_unlock(&dongle->mutex);
 }
 
@@ -81,9 +84,16 @@ void	unlock_dongle(t_thread *thread, t_dongle *dongle)
 	actual_time = get_time_delta(thread->values->start_time);
 	dongle->available = 1;
 	dongle->next_available_time = actual_time + thread->values->dongle_cooldown;
-	pthread_cond_broadcast(&dongle->cond);
+	if (dongle->owner_set && thread->this_thread == dongle->owner)
+	{
+		pthread_cond_broadcast(&dongle->cond);
+		dongle->owner_set = 0;
+	}
+	else
+		pthread_cond_broadcast(&dongle->cond);
 	pthread_mutex_unlock(&dongle->mutex);
 }
+
 
 int	put_dongle_down(t_thread *thread)
 {

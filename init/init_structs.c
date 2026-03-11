@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 17:35:23 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/11 17:05:29 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_thread	*init_threads(t_thread *threads, t_values *values)
 	{
 		(&threads[i])->coder = &coders[i];
 		(&threads[i])->values = values;
+		(&threads[i])->ready = 0;
 		i++;
 	}
 	return (threads);
@@ -83,6 +84,7 @@ t_dongle	*init_dongles(t_dongle *dongles, t_values values)
 		dongles[i].available = 1;
 		dongles[i].next_available_time = 0;
 		dongles[i].id = i;
+		dongles[i].owner_set = 0;
 		if (init_dongles_malloc(&dongles[i]))
 			return (free_dongle(dongles, &values, i));
 		i++;

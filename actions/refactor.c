@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 14:43:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 17:30:14 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/11 16:48:28 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	refactor(t_thread *thread)
 	}
 	actual_time = get_time_delta(thread->values->start_time);
 	time_refactor = thread->values->time_to_refactor;
-	thread->coder->last_compile_start_time = actual_time;
 	printf("%d %d is refactoring\n", actual_time, thread->coder->id);
 	pthread_mutex_unlock(&thread->values->mut);
 	usleep(time_refactor * 1000);

@@ -2,6 +2,7 @@ NAME := codexion
 CC := cc
 CFLAGS := -Wall -Wextra -Werror -pthread
 DEBUG_FLAGS := -g -gdwarf-2
+MODE := 
 
 HEADERS_DIR := coders
 HEADERS := coders.h
@@ -18,7 +19,6 @@ SET_GET_DIR := set_get
 SRC := main.c \
 $(MAIN_RETURN_DIR)/errors.c \
 $(MAIN_RETURN_DIR)/success.c \
-$(UTILS_DIR)/ft_strlen.c \
 $(UTILS_DIR)/get_time.c \
 $(UTILS_DIR)/check_args.c \
 $(THREAD_DIR)/create_thread.c \
@@ -53,16 +53,13 @@ fclean: clean
 
 re: fclean all
 
-run_v: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	timeout 300s valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=memcheck.log ./codexion 4 20 2 2 2 1 2 edf
+run_v:
+	timeout 300s valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --log-file=memcheck.log ./codexion 4 20 2 2 2 1 2 $(MODE)
 
-run_h: 						#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	valgrind --tool=helgrind --fair-sched=yes --history-level=full --log-file=helgrind-gen.log --read-var-info=no ./codexion 4 20 2 2 2 1 2 edf
+run_h:
+	valgrind --tool=helgrind --fair-sched=yes --history-level=full --log-file=helgrind-gen.log --read-var-info=no ./codexion 4 20 2 2 2 1 2 $(MODE)
 
-run_fifo: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	./codexion 6 800 200 200 200 1 100 fifo
-
-run_edf: 	#N_CODER BURNOUT COMPILE DEBUG REFACTOR REQUIRED DONGLE_CD SCHEDULE
-	./codexion 6 800 200 200 200 1 100 edf
+run:
+	./codexion 5 800 200 200 200 3 0 $(MODE)
 
 .PHONY: all clean fclean re

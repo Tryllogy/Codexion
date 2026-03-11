@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:02:48 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 17:28:54 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/11 17:08:57 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	error_no_args(void)
 
 int	error(t_values *values)
 {
+	printf("ERRORS\n");
 	if (values->coders)
 		free_coders(values->coders);
 	if (values->dongles)

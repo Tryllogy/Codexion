@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 17:16:00 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 17:30:05 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/11 16:48:52 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ int	make_monitor(t_coders *coders, t_values *values)
 		last_start = coders[i].last_compile_start_time;
 		pthread_mutex_unlock(&values->mut);
 		time_delta = get_time_delta(values->start_time) - last_start;
-		if (alive && time_delta > values->time_to_burnout
-			&& n_compiled < values->number_of_compiles_required)
+		if (alive && n_compiled < values->number_of_compiles_required && time_delta > values->time_to_burnout)
 			return (finish(values, i));
 		i++;
 	}

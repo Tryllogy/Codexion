@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:56:26 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 18:26:47 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/11 17:04:08 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	init_values_malloc(t_values *values)
 	if (pthread_mutex_init(&values->mut, NULL) != 0)
 		return (1);
 	if (pthread_mutex_init(&values->sched_mut, NULL) != 0)
+		return (1);
+	if (pthread_cond_init(&values->sched_cond, NULL) != 0)
 		return (1);
 	values->dongles = init_dongles(values->dongles, *values);
 	if (!values->dongles)
@@ -32,8 +34,6 @@ int	init_values_malloc(t_values *values)
 		return (1);
 	values->thread_monitor = init_thread_values(1);
 	if (!values->thread_monitor)
-		return (1);
-	if (pthread_cond_init(&values->sched_cond, NULL) != 0)
 		return (1);
 	return (0);
 }

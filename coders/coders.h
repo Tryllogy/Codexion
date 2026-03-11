@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/09 18:26:23 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/11 17:14:25 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct s_dongle
 	__int64_t		next_available_time;
 	pthread_mutex_t	mutex;
 	pthread_cond_t	cond;
+	pthread_t		owner;
+	int				owner_set;
 }					t_dongle;
 
 typedef struct s_coders
@@ -71,13 +73,13 @@ typedef struct s_thread
 {
 	t_coders		*coder;
 	struct s_values	*values;
+	pthread_t		this_thread;
+	int				ready;
 }					t_thread;
 
 // INIT
 // VALUES
 int					init_values(t_values *values, char **argv);
-pthread_cond_t		*init_cond_values(int size);
-pthread_mutex_t		*init_mutex_values(int size);
 pthread_t			*init_thread_values(int size);
 
 // STRUCT
@@ -92,7 +94,6 @@ void				link_dongle_coder(t_coders *coders, t_values values,
 int					init_queue(t_values *values);
 
 // UTILS
-int					ft_strlen(char *s);
 int					check_args(int argc, char **argv);
 
 // TIME
@@ -111,7 +112,6 @@ void				*free_dongle(t_dongle *dongles, t_values *values,
 // RETURN MAIN
 // ERRORS
 int					error_parsing(void);
-int					error_no_args(void);
 int					error(t_values *values);
 
 // SUCCESS
@@ -139,7 +139,6 @@ void				monitor_burnout(t_values *values);
 
 // SETTER GETTER
 int					set_finish(t_values *values);
-t_coders			*set_coders(t_values *values);
 
 // ROUTINE
 int					routine(t_thread *thread);
