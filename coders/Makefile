@@ -50,6 +50,14 @@ all: $(NAME)
 run: $(NAME)
 	./$(NAME) 4 800 200 200 200 1 100 $(MODE)
 
+valgrind: CFLAGS += -g
+valgrind: re
+	valgrind --leak-check=full --track-origins=yes --log-file=valgrind.log ./$(NAME) 4 800 200 200 200 1 100 $(MODE)
+
+helgrind: CFLAGS += -g
+helgrind: re
+	valgrind --tool=helgrind --log-file=helgrind.log ./$(NAME) 4 800 200 200 200 1 100 $(MODE)
+
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $^ -o $@
 

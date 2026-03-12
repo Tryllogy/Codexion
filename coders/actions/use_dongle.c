@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:44:47 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 15:39:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/12 16:27:57 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void lock_dongle(t_thread *thread, t_dongle *dongle)
 	dongle->available = 0;
 	actual_time = get_time_delta(thread->values->start_time);
 	dongle->next_available_time = actual_time + thread->values->dongle_cooldown;
-	print_dongle_taken(thread);
 	dongle->owner = thread->this_thread;
 	dongle->owner_set = 1;
 	pthread_mutex_unlock(&dongle->mutex);
+	print_dongle_taken(thread);
 }
 
 int take_dongle(t_thread *thread)
