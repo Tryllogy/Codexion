@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   wait_turn.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 15:04:06 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 15:39:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:24:46 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-static void move_queue(t_coders **queue, int n_in_queue)
+static void	move_queue(t_coders **queue, int n_in_queue)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < n_in_queue - 1)
@@ -24,12 +24,12 @@ static void move_queue(t_coders **queue, int n_in_queue)
 	}
 }
 
-int is_waiting(t_thread *thread)
+int	is_waiting(t_thread *thread)
 {
-	int i;
-	t_coders **queue;
-	t_coders *coder;
-	int n_in_queue;
+	int			i;
+	t_coders	**queue;
+	t_coders	*coder;
+	int			n_in_queue;
 
 	coder = thread->coder;
 	queue = thread->values->queue;
@@ -44,17 +44,17 @@ int is_waiting(t_thread *thread)
 	return (0);
 }
 
-void wait_for_turn(t_thread *thread)
+void	wait_for_turn(t_thread *thread)
 {
 	pthread_mutex_lock(&thread->values->sched_mut);
 	if (thread->values->n_in_queue <= 0 || !is_waiting(thread))
 	{
 		pthread_mutex_unlock(&thread->values->sched_mut);
-		return;
+		return ;
 	}
 	while (thread->coder != thread->values->queue[0])
 		pthread_cond_wait(&thread->values->sched_cond,
-						  &thread->values->sched_mut);
+			&thread->values->sched_mut);
 	move_queue(thread->values->queue, thread->values->n_in_queue);
 	thread->values->queue[thread->values->n_in_queue - 1] = NULL;
 	thread->values->n_in_queue--;

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 17:16:00 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 15:39:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:24:36 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-int finish(t_values *values, int id)
+int	finish(t_values *values, int id)
 {
-	int i;
-	__int64_t burned_out;
+	int			i;
+	__int64_t	burned_out;
 
 	pthread_mutex_lock(&values->mut);
 	burned_out = get_time_delta(values->start_time);
@@ -31,13 +31,13 @@ int finish(t_values *values, int id)
 	return (1);
 }
 
-int make_monitor(t_coders *coders, t_values *values)
+int	make_monitor(t_coders *coders, t_values *values)
 {
-	int i;
-	int n_compiled;
-	int alive;
-	__int64_t time_delta;
-	__int64_t last_start;
+	int			i;
+	int			n_compiled;
+	int			alive;
+	__int64_t	time_delta;
+	__int64_t	last_start;
 
 	i = 0;
 	while (i < values->number_of_coders)
@@ -48,24 +48,25 @@ int make_monitor(t_coders *coders, t_values *values)
 		last_start = coders[i].last_compile_start_time;
 		pthread_mutex_unlock(&values->mut);
 		time_delta = get_time_delta(values->start_time) - last_start;
-		if (alive && n_compiled < values->number_of_compiles_required && time_delta > values->time_to_burnout)
+		if (alive && n_compiled < values->number_of_compiles_required
+			&& time_delta > values->time_to_burnout)
 			return (finish(values, i));
 		i++;
 	}
 	return (0);
 }
 
-void monitor_burnout(t_values *values)
+void	monitor_burnout(t_values *values)
 {
-	t_coders *coders;
-	int is_finished;
+	t_coders	*coders;
+	int			is_finished;
 
 	is_finished = set_finish(values);
 	coders = values->coders;
 	while (!is_finished)
 	{
 		if (make_monitor(coders, values))
-			return;
+			return ;
 		is_finished = set_finish(values);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   use_dongle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:44:47 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 16:27:57 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:24:43 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void print_dongle_taken(t_thread *thread)
+void	print_dongle_taken(t_thread *thread)
 {
-	__int64_t actual_time;
+	__int64_t	actual_time;
 
 	pthread_mutex_lock(&thread->values->mut);
 	if (!thread->coder->alive)
 	{
 		pthread_mutex_unlock(&thread->values->mut);
-		return;
+		return ;
 	}
 	actual_time = get_time_delta(thread->values->start_time);
 	printf("%lld %d has taken a dongle\n", (long long)actual_time,
-		   thread->coder->id);
+		thread->coder->id);
 	pthread_mutex_unlock(&thread->values->mut);
 }
 
-void lock_dongle(t_thread *thread, t_dongle *dongle)
+void	lock_dongle(t_thread *thread, t_dongle *dongle)
 {
-	__int64_t actual_time;
-	struct timespec ts;
+	__int64_t		actual_time;
+	struct timespec	ts;
 
 	if (pthread_mutex_lock(&dongle->mutex) != 0)
-		return;
+		return ;
 	actual_time = get_time_delta(thread->values->start_time);
 	while (dongle->available == 0 || actual_time < dongle->next_available_time)
 	{
@@ -53,10 +53,10 @@ void lock_dongle(t_thread *thread, t_dongle *dongle)
 	print_dongle_taken(thread);
 }
 
-int take_dongle(t_thread *thread)
+int	take_dongle(t_thread *thread)
 {
-	t_dongle *dongle1;
-	t_dongle *dongle2;
+	t_dongle	*dongle1;
+	t_dongle	*dongle2;
 
 	if (strcmp(thread->values->scheduler, "edf") == 0)
 		wait_for_turn(thread);
@@ -75,12 +75,12 @@ int take_dongle(t_thread *thread)
 	return (1);
 }
 
-void unlock_dongle(t_thread *thread, t_dongle *dongle)
+void	unlock_dongle(t_thread *thread, t_dongle *dongle)
 {
-	__int64_t actual_time;
+	__int64_t	actual_time;
 
 	if (pthread_mutex_lock(&dongle->mutex) != 0)
-		return;
+		return ;
 	actual_time = get_time_delta(thread->values->start_time);
 	dongle->available = 1;
 	dongle->next_available_time = actual_time + thread->values->dongle_cooldown;
@@ -94,10 +94,10 @@ void unlock_dongle(t_thread *thread, t_dongle *dongle)
 	pthread_mutex_unlock(&dongle->mutex);
 }
 
-int put_dongle_down(t_thread *thread)
+int	put_dongle_down(t_thread *thread)
 {
-	t_dongle *dongle1;
-	t_dongle *dongle2;
+	t_dongle	*dongle1;
+	t_dongle	*dongle2;
 
 	dongle1 = thread->coder->dongles[0];
 	dongle2 = thread->coder->dongles[1];

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_values.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:56:26 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 16:19:13 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:25:10 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-int init_values_malloc(t_values *values)
+int	init_values_malloc(t_values *values)
 {
 	if (pthread_mutex_init(&values->mut, NULL) != 0)
 		return (1);
@@ -38,7 +38,7 @@ int init_values_malloc(t_values *values)
 	return (0);
 }
 
-int init_values(t_values *values, char **argv)
+int	init_values(t_values *values, char **argv)
 {
 	values->number_of_coders = atoi(argv[1]);
 	values->time_to_burnout = atoi(argv[2]);

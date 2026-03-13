@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   init_structs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 16:28:05 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:25:02 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-t_coders *init_coders(t_coders *coders, t_values *values)
+t_coders	*init_coders(t_coders *coders, t_values *values)
 {
-	int i;
+	int	i;
+
 	coders = malloc(sizeof(t_coders) * values->number_of_coders);
 	if (!coders)
 		return (NULL);
@@ -39,10 +40,10 @@ t_coders *init_coders(t_coders *coders, t_values *values)
 	return (coders);
 }
 
-t_thread *init_threads(t_thread *threads, t_values *values)
+t_thread	*init_threads(t_thread *threads, t_values *values)
 {
-	int i;
-	t_coders *coders;
+	int			i;
+	t_coders	*coders;
 
 	threads = malloc(sizeof(t_thread) * values->number_of_coders);
 	if (!threads)
@@ -59,7 +60,7 @@ t_thread *init_threads(t_thread *threads, t_values *values)
 	return (threads);
 }
 
-int init_dongles_malloc(t_dongle *dongle)
+int	init_dongles_malloc(t_dongle *dongle)
 {
 	dongle->coders[0] = NULL;
 	dongle->coders[1] = NULL;
@@ -70,9 +71,9 @@ int init_dongles_malloc(t_dongle *dongle)
 	return (0);
 }
 
-t_dongle *init_dongles(t_dongle *dongles, t_values *values)
+t_dongle	*init_dongles(t_dongle *dongles, t_values *values)
 {
-	int i;
+	int	i;
 
 	dongles = malloc(sizeof(t_dongle) * values->number_of_coders);
 	if (!dongles)

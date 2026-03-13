@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   coders.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 16:19:13 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:24:25 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,14 @@ int					init_values(t_values *values, char **argv);
 pthread_t			*init_thread_values(int size);
 
 // STRUCT
-t_coders		*init_coders(t_coders *coders, t_values *values);
-t_thread		*init_threads(t_thread *threads, t_values *values);
-t_dongle		*init_dongles(t_dongle *dongles, t_values *values);
-void			init_ts(struct timespec *ts, t_dongle *dongle,
+t_coders			*init_coders(t_coders *coders, t_values *values);
+t_thread			*init_threads(t_thread *threads, t_values *values);
+t_dongle			*init_dongles(t_dongle *dongles, t_values *values);
+void				init_ts(struct timespec *ts, t_dongle *dongle,
 						__int64_t actual_time);
-void			link_coder_dongle(t_coders *coder, t_values *values, int id);
-void			link_dongle_coder(t_coders *coders, t_values *values,
+void				link_coder_dongle(t_coders *coder, t_values *values,
+						int id);
+void				link_dongle_coder(t_coders *coders, t_values *values,
 						int id);
 int					init_queue(t_values *values);
 

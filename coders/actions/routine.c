@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 17:15:10 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 15:39:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:24:41 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-int make_routine(t_thread *thread, char *scheduler)
+int	make_routine(t_thread *thread, char *scheduler)
 {
-	int alive;
+	int	alive;
 
 	pthread_mutex_lock(&thread->values->mut);
 	alive = thread->coder->alive;
@@ -39,9 +39,9 @@ int make_routine(t_thread *thread, char *scheduler)
 	return (0);
 }
 
-void wait_for_ready(t_thread *thread)
+void	wait_for_ready(t_thread *thread)
 {
-	int r;
+	int	r;
 
 	while (1)
 	{
@@ -49,15 +49,15 @@ void wait_for_ready(t_thread *thread)
 		r = thread->ready;
 		pthread_mutex_unlock(&thread->values->mut);
 		if (r)
-			break;
+			break ;
 		usleep(200);
 	}
 }
 
-int routine(t_thread *thread)
+int	routine(t_thread *thread)
 {
-	char *scheduler;
-	int finished;
+	char	*scheduler;
+	int		finished;
 
 	wait_for_ready(thread);
 	if (thread->values->number_of_coders == 1)
@@ -71,7 +71,7 @@ int routine(t_thread *thread)
 	while (finished)
 	{
 		if (make_routine(thread, scheduler))
-			break;
+			break ;
 		pthread_mutex_lock(&thread->values->mut);
 		finished = !thread->values->finished;
 		pthread_mutex_unlock(&thread->values->mut);

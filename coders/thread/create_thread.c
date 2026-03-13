@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   create_thread.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:41:43 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 15:39:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:25:20 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-int create_threads(t_values *values)
+int	create_threads(t_values *values)
 {
-	int i;
+	int	i;
 
 	if (!values->threads_coder || !values->threads)
 		return (free_threads(values->threads, values->threads_coder));
@@ -22,7 +22,7 @@ int create_threads(t_values *values)
 	while (i < values->number_of_coders)
 	{
 		if (pthread_create(&values->threads_coder[i], NULL, (void *)routine,
-						   &values->threads[i]) != 0)
+				&values->threads[i]) != 0)
 			return (1);
 		pthread_mutex_lock(&values->mut);
 		values->threads[i].this_thread = values->threads_coder[i];
@@ -31,7 +31,7 @@ int create_threads(t_values *values)
 		i++;
 	}
 	if (pthread_create(&*values->thread_monitor, NULL, (void *)monitor_burnout,
-					   values) != 0)
+			values) != 0)
 		return (1);
 	return (0);
 }

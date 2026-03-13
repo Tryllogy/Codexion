@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:05:06 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 15:39:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:24:57 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-void free_coders(t_coders *coders)
+void	free_coders(t_coders *coders)
 {
 	if (!coders)
-		return;
+		return ;
 	free(coders);
 }
 
-int free_threads(t_thread *threads, pthread_t *thread_coder)
+int	free_threads(t_thread *threads, pthread_t *thread_coder)
 {
 	if (threads)
 		free(threads);
@@ -28,9 +28,9 @@ int free_threads(t_thread *threads, pthread_t *thread_coder)
 	return (1);
 }
 
-void *free_dongle(t_dongle *dongles, t_values *values, int n_dongles)
+void	*free_dongle(t_dongle *dongles, t_values *values, int n_dongles)
 {
-	int i;
+	int	i;
 
 	values = (t_values *)values;
 	if (!dongles)

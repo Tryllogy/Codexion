@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   init_values_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:02:17 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 15:39:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:25:08 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-pthread_t *init_thread_values(int size)
+pthread_t	*init_thread_values(int size)
 {
-	pthread_t *thread;
+	pthread_t	*thread;
 
 	thread = malloc(sizeof(pthread_t) * size);
 	if (!thread)
@@ -23,7 +23,7 @@ pthread_t *init_thread_values(int size)
 	return (thread);
 }
 
-int init_queue(t_values *values)
+int	init_queue(t_values *values)
 {
 	values->queue = malloc(sizeof(t_coders *) * values->number_of_coders);
 	if (!values->queue)

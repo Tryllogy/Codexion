@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   check_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 17:18:45 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 15:39:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:25:26 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-int contain_digit(char *str)
+int	contain_digit(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] && (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))
@@ -28,10 +28,10 @@ int contain_digit(char *str)
 	return (0);
 }
 
-int check_args(int argc, char **argv)
+int	check_args(int argc, char **argv)
 {
-	int i;
-	int n;
+	int	i;
+	int	n;
 
 	if (argc != 9)
 		return (1);

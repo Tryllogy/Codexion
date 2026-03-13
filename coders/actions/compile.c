@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   compile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 14:43:46 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 15:39:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:24:31 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-void compile(t_thread *thread)
+void	compile(t_thread *thread)
 {
-	__int64_t time_compile;
-	__int64_t actual_time;
+	__int64_t	time_compile;
+	__int64_t	actual_time;
 
 	pthread_mutex_lock(&thread->values->mut);
-	if (!thread->coder->alive || !thread->coder->dongles[0] || !thread->coder->dongles[1])
+	if (!thread->coder->alive || !thread->coder->dongles[0]
+		|| !thread->coder->dongles[1])
 	{
 		pthread_mutex_unlock(&thread->values->mut);
-		return;
+		return ;
 	}
 	actual_time = get_time_delta(thread->values->start_time);
 	thread->coder->last_compile_start_time = actual_time;
 	time_compile = thread->values->time_to_compile;
-	printf("%ld %d is compiling\n", actual_time,
-		   thread->coder->id);
+	printf("%ld %d is compiling\n", actual_time, thread->coder->id);
 	thread->coder->burnout = actual_time + time_compile;
 	pthread_mutex_unlock(&thread->values->mut);
 	usleep(time_compile * 1000);

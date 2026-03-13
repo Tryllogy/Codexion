@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   edf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:43:12 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 15:39:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:24:55 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-void sort_queue(t_coders **queue, int n_in_queue)
+void	sort_queue(t_coders **queue, int n_in_queue)
 {
-	t_coders *coder_tmp;
-	int i;
-	int j;
+	t_coders	*coder_tmp;
+	int			i;
+	int			j;
 
 	if (n_in_queue == 1)
-		return;
+		return ;
 	i = 0;
 	while (i < n_in_queue)
 	{
@@ -38,9 +38,9 @@ void sort_queue(t_coders **queue, int n_in_queue)
 	}
 }
 
-t_coders *edf(t_thread *thread)
+t_coders	*edf(t_thread *thread)
 {
-	int n_in_queue;
+	int	n_in_queue;
 
 	pthread_mutex_lock(&thread->values->sched_mut);
 	n_in_queue = thread->values->n_in_queue;

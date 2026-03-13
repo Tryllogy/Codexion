@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   init_time.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchemin <tchemin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:56:33 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/12 15:39:42 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/13 13:25:05 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
 
-void init_ts(struct timespec *ts, t_dongle *dongle, __int64_t actual_time)
+void	init_ts(struct timespec *ts, t_dongle *dongle, __int64_t actual_time)
 {
-	struct timeval tv;
-	__int64_t remaining_ms;
+	struct timeval	tv;
+	__int64_t		remaining_ms;
 
 	remaining_ms = dongle->next_available_time - actual_time;
 	if (remaining_ms < 0)
