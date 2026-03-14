@@ -28,6 +28,7 @@ $(ACTIONS_DIR)/refactor.c \
 $(ACTIONS_DIR)/use_dongle.c \
 $(ACTIONS_DIR)/routine.c \
 $(ACTIONS_DIR)/wait_turn.c \
+$(ACTIONS_DIR)/wait_turn_utils.c \
 $(ACTIONS_DIR)/monitor.c \
 $(FREE_DIR)/free.c \
 $(INIT_DIR)/init_struct_utils.c \
@@ -48,7 +49,7 @@ DEPS := $(patsubst %.c,$(DEPDIR)/%.d,$(SRC))
 all: $(NAME)
 
 run: $(NAME)
-	./$(NAME) 4 800 200 200 200 1 100 $(MODE)
+	./$(NAME) 4 800 100 100 100 1 400 $(MODE)
 
 valgrind: CFLAGS += -g
 valgrind: re

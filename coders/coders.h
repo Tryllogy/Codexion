@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:37:27 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/13 13:24:25 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/14 16:52:28 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_dongle
 	pthread_mutex_t	mutex;
 	pthread_cond_t	cond;
 	pthread_t		owner;
+	int				id_coder_promised;
 	int				owner_set;
 }					t_dongle;
 
@@ -150,6 +151,8 @@ int					put_dongle_down(t_thread *thread);
 
 // WAIT TURN
 void				wait_for_turn(t_thread *thread);
+void				move_queue(t_coders **queue, int n_in_queue);
+int					is_waiting(t_thread *thread);
 
 // EDF
 // EDF

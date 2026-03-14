@@ -6,13 +6,11 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:44:47 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/13 13:24:43 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/14 16:27:28 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../coders.h"
-#include <stdio.h>
-#include <unistd.h>
 
 void	print_dongle_taken(t_thread *thread)
 {
@@ -38,13 +36,16 @@ void	lock_dongle(t_thread *thread, t_dongle *dongle)
 	if (pthread_mutex_lock(&dongle->mutex) != 0)
 		return ;
 	actual_time = get_time_delta(thread->values->start_time);
-	while (dongle->available == 0 || actual_time < dongle->next_available_time)
+	while ((dongle->available == 0
+			&& dongle->id_coder_promised != thread->coder->id)
+		|| actual_time < dongle->next_available_time)
 	{
 		init_ts(&ts, dongle, actual_time);
 		pthread_cond_timedwait(&dongle->cond, &dongle->mutex, &ts);
 		actual_time = get_time_delta(thread->values->start_time);
 	}
 	dongle->available = 0;
+	dongle->id_coder_promised = 0;
 	actual_time = get_time_delta(thread->values->start_time);
 	dongle->next_available_time = actual_time + thread->values->dongle_cooldown;
 	dongle->owner = thread->this_thread;

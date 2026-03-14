@@ -6,7 +6,7 @@
 /*   By: tchemin <tchemin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:38:01 by tchemin           #+#    #+#             */
-/*   Updated: 2026/03/13 13:25:02 by tchemin          ###   ########.fr       */
+/*   Updated: 2026/03/14 15:28:45 by tchemin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_dongle	*init_dongles(t_dongle *dongles, t_values *values)
 		dongles[i].next_available_time = 0;
 		dongles[i].id = i;
 		dongles[i].owner_set = 0;
+		dongles[i].id_coder_promised = 0;
 		if (init_dongles_malloc(&dongles[i]))
 			return (free_dongle(dongles, values, i));
 		i++;
